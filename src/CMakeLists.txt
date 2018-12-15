@@ -18,3 +18,4 @@ include(GNUInstallDirs)
 
 # Include all subdirectories that contain targets:
 add_subdirectory(app)
+add_subdirectory(lib)

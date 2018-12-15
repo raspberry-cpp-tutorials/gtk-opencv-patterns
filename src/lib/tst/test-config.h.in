@@ -1,0 +1,2 @@
+// Path to the test data:
+#define PATH_TO_TEST_DATA "@PATH_TO_TEST_DATA@"
