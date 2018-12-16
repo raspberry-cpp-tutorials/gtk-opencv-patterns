@@ -33,7 +33,7 @@ void MovieMaker::endMovie() {
 }
 
 void MovieMaker::startMovie(cv::Mat firstPhotogram) {
-	int fourcc = CV_FOURCC('M', 'J', 'P', 'G');
+	int fourcc = VideoWriter::fourcc('M', 'J', 'P', 'G');
 	bool isColor = (firstPhotogram.type() == CV_8UC3);
 	videoWriter.open(filename, fourcc, fps, firstPhotogram.size(), isColor);
 }
