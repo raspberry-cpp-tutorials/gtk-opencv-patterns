@@ -16,6 +16,7 @@ add_executable(rasctest
 	catch.hpp	
 
 	orange-ball-detector-test
+	movie-maker-test
 )
 
 target_include_directories(rasctest PRIVATE ${PROJECT_BINARY_DIR})

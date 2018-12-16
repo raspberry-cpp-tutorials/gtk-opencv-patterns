@@ -10,6 +10,7 @@ public:
 	cv::Point2f getBallPosition();
 	float getRadius();
 	void setDebug(bool d);
+	cv::Mat getImage();
 
 private:
 	cv::Mat resizedImage;

@@ -4,8 +4,18 @@
 
 #include "camera-drawing-area.hpp"
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
+std::string pathToHomeDirectory() {
+	struct passwd *pw = getpwuid(getuid());
+	return std::string(pw->pw_dir);
+}
+
 CameraDrawingArea::CameraDrawingArea():
-videoCapture(0) {
+videoCapture(0),
+movieMaker(pathToHomeDirectory().append("/Desktop/live.avi"), 20.0) {
 	// Lets refresh drawing area very now and then.
 	everyNowAndThenConnection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &CameraDrawingArea::everyNowAndThen), 100);
 }
@@ -55,9 +65,15 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 	// Capture one image from camera:
 	videoCapture.read(webcam);
+
+	// Stream it in video:
+	movieMaker.addPhotogram(webcam);
+
+	// Detect the ball:
+	orangeBallDetector.detect(webcam);
 	
 	// Resize it to the allocated size of the Widget.
-	resize(webcam, output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
+	resize(orangeBallDetector.getImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
 
 	// Initializes a pixbuf sharing the same data as the mat:
 	Glib::RefPtr<Gdk::Pixbuf> pixbuf =

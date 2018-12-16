@@ -19,9 +19,9 @@ void OrangeBallDetector::detect(cv::Mat image) {
 	showIfDebug(hsvImage);
 
 	
-	// Detect the color orange:
-	auto lowOrange = cv::Scalar(10, 130, 190);
-	auto highOrange = cv::Scalar(21, 255, 255);
+	// Detect the color orange: (Hue, Sat, Val)
+	auto lowOrange =  cv::Scalar(  7, 170, 120);
+	auto highOrange = cv::Scalar( 18, 255, 255);
 	inRange(hsvImage, lowOrange, highOrange, rangeImage);
 
 	// Smooth it out:
@@ -53,10 +53,10 @@ void OrangeBallDetector::detect(cv::Mat image) {
 		cv::minEnclosingCircle(maxContour, ballPosition, radius);
 		
 		// Draw the circle:
-		if (debug) {
+		if (radius > 20) {
 			cv::circle(resizedImage, ballPosition, radius, cv::Scalar(0, 255, 0), 3);
-			showIfDebug(resizedImage);
 		}
+		showIfDebug(resizedImage);
 	}
 }
 
@@ -77,4 +77,8 @@ cv::Point2f OrangeBallDetector::getBallPosition() {
 
 float OrangeBallDetector::getRadius() {
 	return radius;
+}
+
+cv::Mat OrangeBallDetector::getImage() {
+	return resizedImage;
 }

@@ -23,6 +23,7 @@ target_include_directories(rascapp PRIVATE hpp)
 
 # Link files:
 target_link_libraries(rascapp
+	rasclib
 	${GTKMM_LIBRARIES}
 	${OpenCV_LIBS}
 )

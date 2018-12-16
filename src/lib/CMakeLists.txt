@@ -6,6 +6,7 @@ find_package( OpenCV REQUIRED )
 # compile the library:
 add_library(rasclib
 	cpp/orange-ball-detector
+	cpp/movie-maker
 )
 
 # Define headers for this library. When PUBLIC, headers used for

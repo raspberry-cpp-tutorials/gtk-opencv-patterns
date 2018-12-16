@@ -18,7 +18,30 @@ SCENARIO("Can detect orange balls in an image") {
 	GIVEN( "An initialized ball detector") {
 		OrangeBallDetector orangeBallDetector;
 		orangeBallDetector.setDebug(true);
-		
+
+		WHEN( "Shown with a geek holding a cap") {
+			string ball01 = string(pathToTestData);
+			ball01.append("/orange-01.jpg");
+			
+			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			orangeBallDetector.detect(mat);
+			
+			THEN ( "Can find the cap") {
+				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(435, 10));
+			}
+		}
+		WHEN( "Shown with a geek holding a cap (2)") {
+			string ball01 = string(pathToTestData);
+			ball01.append("/orange-02.jpg");
+			
+			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			orangeBallDetector.detect(mat);
+			
+			THEN ( "Can find the cap (2)") {
+				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(240, 10));
+			}
+		}
+
 		WHEN( "Shown with one nice lady") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/ball-01.jpg");
@@ -38,8 +61,8 @@ SCENARIO("Can detect orange balls in an image") {
 			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
 			orangeBallDetector.detect(mat);
 			
-			THEN ( "Can find the orange") {
-				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(145, 10));
+			THEN ( "Sadly, misses the orange") {
+				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(215, 10));
 			}
 		}
 

@@ -3,6 +3,8 @@
 
 #include <opencv2/highgui.hpp>
 #include <gtkmm.h>
+#include "movie-maker.hpp"
+#include "orange-ball-detector.hpp"
 
 class CameraDrawingArea :
 public Gtk::DrawingArea {
@@ -19,6 +21,8 @@ protected:
 private:
 	sigc::connection everyNowAndThenConnection;
 	cv::VideoCapture videoCapture;
+	MovieMaker movieMaker;
+	OrangeBallDetector orangeBallDetector;
 	cv::Mat webcam;
 	cv::Mat output;
 	int width, height;
