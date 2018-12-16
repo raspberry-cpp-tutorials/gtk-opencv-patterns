@@ -6,16 +6,10 @@
 
 #include <unistd.h>
 #include <sys/types.h>
-#include <pwd.h>
-
-std::string pathToHomeDirectory() {
-	struct passwd *pw = getpwuid(getuid());
-	return std::string(pw->pw_dir);
-}
 
 CameraDrawingArea::CameraDrawingArea():
 videoCapture(0),
-movieMaker(pathToHomeDirectory().append("/Desktop/live.avi"), 20.0) {
+movieMaker("./live.avi", 20.0) {
 	// Lets refresh drawing area very now and then.
 	everyNowAndThenConnection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &CameraDrawingArea::everyNowAndThen), 100);
 }

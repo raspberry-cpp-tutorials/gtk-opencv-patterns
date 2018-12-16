@@ -17,11 +17,11 @@ SCENARIO("Can make a movie") {
 		MovieMaker movieMaker(filename, 10.0);
 		
 		WHEN( "Fed with images") {
-			mat = imread(string(pathToTestData).append("/abc-a.png"), CV_LOAD_IMAGE_COLOR);
+			mat = imread(string(pathToTestData).append("/abc-a.png"));
 			movieMaker.addPhotogram(mat);
-			mat = imread(string(pathToTestData).append("/abc-b.png"), CV_LOAD_IMAGE_COLOR);
+			mat = imread(string(pathToTestData).append("/abc-b.png"));
 			movieMaker.addPhotogram(mat);
-			mat = imread(string(pathToTestData).append("/abc-c.png"), CV_LOAD_IMAGE_COLOR);
+			mat = imread(string(pathToTestData).append("/abc-c.png"));
 			movieMaker.addPhotogram(mat);
 			movieMaker.endMovie();
 			

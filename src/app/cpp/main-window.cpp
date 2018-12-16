@@ -1,6 +1,4 @@
-#include <syslog.h>
-#include <unistd.h>
-
+#include <iostream>
 #include "main-window.hpp"
 
 MainWindow::MainWindow(int width, int height):
@@ -38,7 +36,7 @@ m_label1("First Label") {
 }
 
 void MainWindow::buttonClick() {
-	syslog(LOG_NOTICE, "User %d says 'Hello World'", getuid());
+	std::cout << "Hello World" << std::endl;
 }
 
 bool MainWindow::on_key_press_event(GdkEventKey* event) {

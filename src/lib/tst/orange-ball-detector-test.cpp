@@ -23,7 +23,7 @@ SCENARIO("Can detect orange balls in an image") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/orange-01.jpg");
 			
-			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 			
 			THEN ( "Can find the cap") {
@@ -34,7 +34,7 @@ SCENARIO("Can detect orange balls in an image") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/orange-02.jpg");
 			
-			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 			
 			THEN ( "Can find the cap (2)") {
@@ -46,7 +46,7 @@ SCENARIO("Can detect orange balls in an image") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/ball-01.jpg");
 			
-			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 			
 			THEN ( "Can find the ball") {
@@ -58,7 +58,7 @@ SCENARIO("Can detect orange balls in an image") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/ball-02.jpg");
 			
-			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 			
 			THEN ( "Sadly, misses the orange") {
@@ -70,7 +70,7 @@ SCENARIO("Can detect orange balls in an image") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/ball-03.jpg");
 			
-			mat = imread(ball01, CV_LOAD_IMAGE_COLOR);
+			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 			
 			THEN ( "Can find the ball") {

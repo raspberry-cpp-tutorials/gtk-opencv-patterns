@@ -24,7 +24,7 @@ private:
 	float radius;
 	
 	void showIfDebug(cv::Mat m);
-	bool debug;
+	bool debug = false;
 };
 
 #endif
