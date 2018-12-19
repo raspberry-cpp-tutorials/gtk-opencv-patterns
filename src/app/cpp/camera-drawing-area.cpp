@@ -8,14 +8,38 @@
 #include <sys/types.h>
 
 CameraDrawingArea::CameraDrawingArea():
+captureThread(nullptr),
 videoCapture(0),
 movieMaker("./live.avi", 20.0) {
-	// Lets refresh drawing area very now and then.
-	everyNowAndThenConnection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &CameraDrawingArea::everyNowAndThen), 100);
+	startCapturing();
 }
 
 CameraDrawingArea::~CameraDrawingArea() {
-	everyNowAndThenConnection.disconnect();
+	stopCapturing();
+}
+
+void CameraDrawingArea::startCapturing() {
+	if (!captureThread) {
+		keepCapturing = true;
+		captureThread = new std::thread([this] { doCapture(); });
+	}
+}
+
+void CameraDrawingArea::stopCapturing() {
+	keepCapturing = false;
+	captureThread->join();
+	free(captureThread);
+	captureThread = nullptr;
+}
+
+void CameraDrawingArea::doCapture() {
+	while (keepCapturing) {
+		videoCapture.grab();
+		videoCapture.grab();
+		videoCapture.grab();
+		videoCapture.read(webcam);
+		everyNowAndThen();
+	}
 }
 
 /**

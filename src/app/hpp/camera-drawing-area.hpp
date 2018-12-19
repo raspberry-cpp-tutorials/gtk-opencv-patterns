@@ -1,8 +1,12 @@
 #ifndef CAMERA_DRAWING_AREA_H
 #define CAMERA_DRAWING_AREA_H
 
+#include <thread>
+#include <mutex>
+
 #include <opencv2/highgui.hpp>
 #include <gtkmm.h>
+
 #include "movie-maker.hpp"
 #include "orange-ball-detector.hpp"
 
@@ -19,7 +23,11 @@ protected:
 	bool everyNowAndThen();
 
 private:
-	sigc::connection everyNowAndThenConnection;
+	void startCapturing();
+	void stopCapturing();
+	bool keepCapturing;
+	void doCapture();
+	std::thread* captureThread;
 	cv::VideoCapture videoCapture;
 	MovieMaker movieMaker;
 	OrangeBallDetector orangeBallDetector;
