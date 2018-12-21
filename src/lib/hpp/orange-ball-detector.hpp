@@ -2,18 +2,37 @@
 #define ORANGE_BALL_DETECTOR_HPP
 
 #include <opencv2/highgui.hpp>
+#include "event-bus.hpp"
+#include "capture-image-from-camera.hpp"
 
-class OrangeBallDetector {
+class EventOrangeDetected {
+	friend class OrangeBallDetector;
 public:
-	virtual ~OrangeBallDetector() = default;
-	void detect(cv::Mat image);
+	cv::Mat getCapturedImage();
 	cv::Point2f getBallPosition();
 	float getRadius();
-	void setDebug(bool d);
-	cv::Mat getImage();
-
+	bool hasDetectedSomething();
 private:
-	cv::Mat resizedImage;
+	EventOrangeDetected(cv::Mat i);
+	EventOrangeDetected(cv::Mat i, cv::Point2f bp, float r);
+	cv::Mat capturedImage;
+	cv::Point2f ballPosition;
+	float radius;
+};
+
+class OrangeBallDetector :
+public Subscriptor<EventImageCaptured> {
+public:
+	void receive(EventImageCaptured e);
+	void detect(cv::Mat image);
+	virtual ~OrangeBallDetector() = default;
+	void setDebug(bool d);
+	cv::Mat getCapturedImage();
+	cv::Point2f getBallPosition();
+	float getRadius();
+	
+private:
+	cv::Mat capturedImage;
 	cv::Mat blurImage;
 	cv::Mat hsvImage;
 	cv::Mat rangeImage;
@@ -22,9 +41,11 @@ private:
 
 	cv::Point2f ballPosition;
 	float radius;
-	
+
 	void showIfDebug(cv::Mat m);
 	bool debug = false;
+	
+	EventBus<EventOrangeDetected> eventBus;
 };
 
 #endif

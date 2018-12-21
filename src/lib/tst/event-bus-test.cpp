@@ -49,7 +49,7 @@ using namespace std::placeholders;
 using namespace std;
 
 SCENARIO("The Event Bus Service broadcasts to all subscribers of this event") {
-	EventBusService<AnyEvent> eventBus;
+	EventBus<AnyEvent> eventBus;
 
 	GIVEN( "Two classes subscribed to the same event") {
 		SubscriberToAllEvents subscriber1(10), subscriber2(20);
@@ -79,8 +79,8 @@ SCENARIO("The Event Bus Service broadcasts to all subscribers of this event") {
 
 
 SCENARIO("The Event Bus Service broatcasts only to subscribers of this event") {
-	EventBusService<AnyEvent> eventBus1;
-	EventBusService<OtherEvent> eventBus2;
+	EventBus<AnyEvent> eventBus1;
+	EventBus<OtherEvent> eventBus2;
 	
 	GIVEN( "Two classes subscribed to different event") {
 		eventBus1.clear();
@@ -102,8 +102,8 @@ SCENARIO("The Event Bus Service broatcasts only to subscribers of this event") {
 }
 
 SCENARIO("The Event Bus Service is a singleton") {
-	EventBusService<AnyEvent> eventBus1;
-	EventBusService<AnyEvent> eventBus2;
+	EventBus<AnyEvent> eventBus1;
+	EventBus<AnyEvent> eventBus2;
 	
 	GIVEN( "Two classes subscribed to same event using different instances of same event bus") {
 		eventBus1.clear();

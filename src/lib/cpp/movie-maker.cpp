@@ -20,11 +20,13 @@ MovieMaker::~MovieMaker() {
 }
 
 void MovieMaker::addPhotogram(Mat photogram) {
-	if (!isMovieStarted) {
-		startMovie(photogram);
-		isMovieStarted = true;
+	if (photogram.size().width > 0) {
+		if (!isMovieStarted) {
+			startMovie(photogram);
+			isMovieStarted = true;
+		}
+		videoWriter.write(photogram);
 	}
-	videoWriter.write(photogram);
 }
 
 void MovieMaker::endMovie() {

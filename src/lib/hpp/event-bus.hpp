@@ -48,9 +48,9 @@ vector<Subscriptor<T> *> SubscriptorsHolder<T>::subscriptors;
 /** @brief Propagates the events to all subscriptors in the list.
  */
 template <class T>
-class EventBusService {
+class EventBus {
 public:
-	virtual ~EventBusService() = default;
+	virtual ~EventBus() = default;
 	
 	/** @brief empties the list of subscribers.
 	 * You should not use this outside unit testing.
