@@ -12,11 +12,15 @@ void OrangeBallDetector::detect(cv::Mat image) {
 	// Make the image of a reasonable size:
 	double width = image.size().width;
 	if (width > 0) {
-		double scale = 600 / width;
-		resize(image, capturedImage, cv::Size(), scale, scale, cv::INTER_LINEAR);
-		showIfDebug(capturedImage);
+		radius = 0;
+		ballPosition.x = 0;
+		ballPosition.y = 0;
 
-		GaussianBlur(capturedImage, blurImage, cv::Size(11, 11), 0);
+		double scale = 600 / width;
+		resize(image, resizedImage, cv::Size(), scale, scale, cv::INTER_LINEAR);
+		showIfDebug(resizedImage);
+
+		GaussianBlur(resizedImage, blurImage, cv::Size(11, 11), 0);
 		showIfDebug(blurImage);
 
 		cvtColor(blurImage, hsvImage, cv::COLOR_BGR2HSV );
@@ -58,11 +62,11 @@ void OrangeBallDetector::detect(cv::Mat image) {
 			
 			// Draw the circle:
 			if (radius > 20) {
-				cv::circle(capturedImage, ballPosition, radius, cv::Scalar(0, 255, 0), 3);
+				cv::circle(resizedImage, ballPosition, radius, cv::Scalar(0, 255, 0), 3);
 			}
-			showIfDebug(capturedImage);
-			eventBus.propagate(EventOrangeDetected(capturedImage, ballPosition, radius));
+			showIfDebug(resizedImage);
 		}
+		eventBus.propagate(EventOrangeDetected(resizedImage, ballPosition, radius));
 	}
 }
 
@@ -78,7 +82,7 @@ void OrangeBallDetector::showIfDebug(cv::Mat m) {
 }
 
 cv::Mat OrangeBallDetector::getCapturedImage() {
-	return capturedImage;
+	return resizedImage;
 }
 
 cv::Point2f OrangeBallDetector::getBallPosition() {
@@ -89,8 +93,13 @@ float OrangeBallDetector::getRadius() {
 	return radius;
 }
 
+EventOrangeDetected::EventOrangeDetected():
+EventOrangeDetected(cv::Mat(), cv::Point2f(), 0) {
+	// Nothing to do.
+}
 
-EventOrangeDetected::EventOrangeDetected(cv::Mat i):EventOrangeDetected(i, cv::Point2f(0, 0), 0) {
+EventOrangeDetected::EventOrangeDetected(cv::Mat i):
+EventOrangeDetected(i, cv::Point2f(), 0) {
 	// Nothing to do.
 }
 

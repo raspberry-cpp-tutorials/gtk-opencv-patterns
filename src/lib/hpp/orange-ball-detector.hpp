@@ -8,6 +8,7 @@
 class EventOrangeDetected {
 	friend class OrangeBallDetector;
 public:
+	EventOrangeDetected();
 	cv::Mat getCapturedImage();
 	cv::Point2f getBallPosition();
 	float getRadius();
@@ -32,7 +33,7 @@ public:
 	float getRadius();
 	
 private:
-	cv::Mat capturedImage;
+	cv::Mat resizedImage;
 	cv::Mat blurImage;
 	cv::Mat hsvImage;
 	cv::Mat rangeImage;
