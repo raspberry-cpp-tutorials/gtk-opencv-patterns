@@ -26,23 +26,23 @@ private:
 };
 
 SCENARIO("Can detect orange balls in an image") {
-	EventBus<EventImageCaptured> capturedImageEventBus;
-	EventBus<EventOrangeDetected> orangeDetectedEventBus;
-
-	Receiver receiver;
-	orangeDetectedEventBus.subscribe(&receiver);
-
-	Mat mat;
-
 	GIVEN( "A ball detector subscribed to image captures") {
+
+		EventBus<EventImageCaptured> capturedImageEventBus;
 		OrangeBallDetector orangeBallDetector;
 		capturedImageEventBus.subscribe(&orangeBallDetector);
-		orangeBallDetector.setDebug(false); // true to see intermediary images.
+
+		EventBus<EventOrangeDetected> orangeDetectedEventBus;
+		Receiver receiver;
+		orangeDetectedEventBus.subscribe(&receiver);
+
+		// Set debug to 'true' to see intermediary images:
+		orangeBallDetector.setDebug(false);
 
 		WHEN( "Shown with a geek holding a cap") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-01.jpg");
 			
-			mat = imread(ball01);
+			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 			
 			THEN ( "Can find the cap") {
@@ -55,7 +55,7 @@ SCENARIO("Can detect orange balls in an image") {
 		WHEN( "Shown with a geek holding a cap (2)") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-02.jpg");
 			
-			mat = imread(ball01);
+			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 			THEN ( "Can find the cap (2)") {
 				EventOrangeDetected e = receiver.getEvent();
@@ -67,7 +67,7 @@ SCENARIO("Can detect orange balls in an image") {
 		WHEN( "Shown with one nice lady") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-01.jpg");
 			
-			mat = imread(ball01);
+			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 
 			THEN ( "Can find the ball") {
@@ -80,7 +80,7 @@ SCENARIO("Can detect orange balls in an image") {
 		WHEN( "Shown with a hand grabbing an orange") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-02.jpg");
 			
-			mat = imread(ball01);
+			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 
 			THEN ( "Sadly, misses the orange") {
@@ -93,7 +93,7 @@ SCENARIO("Can detect orange balls in an image") {
 		WHEN( "Shown with a lady holding a basked ball") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-03.jpg");
 			
-			mat = imread(ball01);
+			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 
 			THEN ( "Can find the ball") {
@@ -105,7 +105,7 @@ SCENARIO("Can detect orange balls in an image") {
 		WHEN( "Shown with a broccoli") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/broccoli-01.jpg");
 			
-			mat = imread(ball01);
+			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 
 			THEN ( "Won't find the ball") {
@@ -114,6 +114,6 @@ SCENARIO("Can detect orange balls in an image") {
 			}
 		}
 		capturedImageEventBus.unsubscribe(&orangeBallDetector);
+		orangeDetectedEventBus.unsubscribe(&receiver);
 	}
-	orangeDetectedEventBus.unsubscribe(&receiver);
 }
