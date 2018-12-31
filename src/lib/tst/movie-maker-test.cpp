@@ -9,20 +9,22 @@ using namespace std;
 using namespace cv;
 
 SCENARIO("Can make a movie") {
-	Mat mat;
-	string pathToTestData = PATH_TO_TEST_DATA;
-	
 	GIVEN( "An initialized movie maker") {
 		string filename("./live.avi");
+
+		EventBus<EventImageCaptured> capturedImageEventBus;
 		MovieMaker movieMaker(filename, 10.0);
+		capturedImageEventBus.subscribe(&movieMaker);
 		
 		WHEN( "Fed with images") {
-			mat = imread(string(pathToTestData).append("/abc-a.png"));
-			movieMaker.addPhotogram(mat);
-			mat = imread(string(pathToTestData).append("/abc-b.png"));
-			movieMaker.addPhotogram(mat);
-			mat = imread(string(pathToTestData).append("/abc-c.png"));
-			movieMaker.addPhotogram(mat);
+			Mat mat;
+			mat = imread(string(PATH_TO_TEST_DATA).append("/abc-a.png"));
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+			mat = imread(string(PATH_TO_TEST_DATA).append("/abc-b.png"));
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+			mat = imread(string(PATH_TO_TEST_DATA).append("/abc-c.png"));
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
 			movieMaker.endMovie();
 			
 			THEN ( "Can make a movie") {
@@ -40,6 +42,7 @@ SCENARIO("Can make a movie") {
 				REQUIRE( n == 3);
 			}
 		}
+		capturedImageEventBus.unsubscribe(&movieMaker);
 	}
 }
 

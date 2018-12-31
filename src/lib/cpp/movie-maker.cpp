@@ -1,9 +1,5 @@
 #include "movie-maker.hpp"
 
-#include <opencv2/highgui.hpp>
-#include <opencv2/videoio.hpp>
-#include <cstring>
-
 using namespace std;
 using namespace cv;
 
@@ -17,6 +13,10 @@ fps(fps) {
 
 MovieMaker::~MovieMaker() {
 	endMovie();
+}
+
+void MovieMaker::receive(EventImageCaptured e) {
+	addPhotogram(e.getCapturedImage());
 }
 
 void MovieMaker::addPhotogram(Mat photogram) {

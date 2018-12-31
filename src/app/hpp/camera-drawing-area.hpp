@@ -1,11 +1,10 @@
 #ifndef CAMERA_DRAWING_AREA_H
 #define CAMERA_DRAWING_AREA_H
 
+#include "orange-ball-detector.hpp"
+
 #include <opencv2/highgui.hpp>
 #include <gtkmm.h>
-
-#include "movie-maker.hpp"
-#include "orange-ball-detector.hpp"
 
 class CameraDrawingArea :
 public Gtk::DrawingArea,
@@ -22,7 +21,6 @@ protected:
 	bool everyNowAndThen();
 
 private:
-	MovieMaker movieMaker;
 	cv::Mat webcam;
 	cv::Mat output;
 	int width, height;

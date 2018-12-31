@@ -1,14 +1,8 @@
-#include "opencv2/imgproc.hpp"
-#include "opencv2/core.hpp"
-#include "opencv2/highgui.hpp"
-
 #include "camera-drawing-area.hpp"
 
-#include <unistd.h>
-#include <sys/types.h>
+#include <opencv2/imgproc.hpp>
 
-CameraDrawingArea::CameraDrawingArea():
-movieMaker("./live.avi", 20.0) {
+CameraDrawingArea::CameraDrawingArea() {
 	eventBus.subscribe(this);
 }
 
@@ -44,8 +38,6 @@ void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
  */
 bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	if (webcam.size().width > 0) {
-		// Stream it in video:
-		movieMaker.addPhotogram(webcam);
 		
 		// Resize it to the allocated size of the Widget.
 		resize(webcam, output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);

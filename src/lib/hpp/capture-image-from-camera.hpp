@@ -1,9 +1,11 @@
 #ifndef CAPTURE_IMAGE_FROM_CAMERA_HPP
 #define CAPTURE_IMAGE_FROM_CAMERA_HPP
 
-#include <thread>
-#include <opencv2/highgui.hpp>
 #include "event-bus.hpp"
+
+#include <opencv2/highgui.hpp>
+
+#include <thread>
 
 class EventImageCaptured {
 public:
