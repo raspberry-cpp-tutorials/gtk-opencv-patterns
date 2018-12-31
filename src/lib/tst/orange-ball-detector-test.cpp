@@ -10,81 +10,9 @@ using namespace std;
 using namespace cv;
 
 using Catch::Matchers::WithinAbs;
-SCENARIO("Can detect orange balls in an image") {
-	Mat mat;
-	
-	GIVEN( "An initialized ball detector") {
-		OrangeBallDetector orangeBallDetector;
-		orangeBallDetector.setDebug(false);
 
-		WHEN( "Shown with a geek holding a cap") {
-			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-01.jpg");
-			
-			mat = imread(ball01);
-			orangeBallDetector.detect(mat);
-			
-			THEN ( "Can find the cap") {
-				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(435, 10));
-			}
-		}
-		WHEN( "Shown with a geek holding a cap (2)") {
-			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-02.jpg");
-			
-			mat = imread(ball01);
-			orangeBallDetector.detect(mat);
-			
-			THEN ( "Can find the cap (2)") {
-				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(240, 10));
-			}
-		}
-
-		WHEN( "Shown with one nice lady") {
-			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-01.jpg");
-			
-			mat = imread(ball01);
-			orangeBallDetector.detect(mat);
-			
-			THEN ( "Can find the ball") {
-				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(360, 10));
-			}
-		}
-		
-		WHEN( "Shown with a hand grabbing an orange") {
-			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-02.jpg");
-			
-			mat = imread(ball01);
-			orangeBallDetector.detect(mat);
-			
-			THEN ( "Sadly, misses the orange") {
-				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(215, 10));
-			}
-		}
-
-		WHEN( "Shown with a lady holding a basked ball") {
-			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-03.jpg");
-			
-			mat = imread(ball01);
-			orangeBallDetector.detect(mat);
-			
-			THEN ( "Can find the ball") {
-				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(360, 10));
-			}
-		}
-		WHEN( "Shown with a broccoli") {
-			string ball01 = string(PATH_TO_TEST_DATA).append("/broccoli-01.jpg");
-			
-			mat = imread(ball01);
-			orangeBallDetector.detect(mat);
-			
-			THEN ( "Won't find the ball") {
-				REQUIRE( orangeBallDetector.getBallPosition().x == 0);
-				REQUIRE( orangeBallDetector.getRadius() == 0);
-			}
-		}
-
-	}
-}
-
+// A trivial receiver, to obtain the responses from
+// the orange detector:
 class Receiver : public Subscriptor<EventOrangeDetected> {
 public:
 	void receive(EventOrangeDetected e) {
@@ -97,39 +25,95 @@ private:
 	EventOrangeDetected eventOrangeDetected;
 };
 
-SCENARIO("Sends and receives events") {
-	GIVEN ("An orange detector subscribed to image events") {
-		Receiver receiver;
-		EventBus<EventOrangeDetected> eventBusOranges;
-		eventBusOranges.subscribe(&receiver);
-		
-		EventBus<EventImageCaptured> eventBusImages;
+SCENARIO("Can detect orange balls in an image") {
+	EventBus<EventImageCaptured> capturedImageEventBus;
+	EventBus<EventOrangeDetected> orangeDetectedEventBus;
+
+	Receiver receiver;
+	orangeDetectedEventBus.subscribe(&receiver);
+
+	Mat mat;
+
+	GIVEN( "A ball detector subscribed to image captures") {
 		OrangeBallDetector orangeBallDetector;
-		eventBusImages.subscribe(&orangeBallDetector);
-		
-		WHEN("Propagating a new image event containing a detectable orange") {
+		capturedImageEventBus.subscribe(&orangeBallDetector);
+		orangeBallDetector.setDebug(false); // true to see intermediary images.
+
+		WHEN( "Shown with a geek holding a cap") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-01.jpg");
-			Mat mat = imread(ball01);
-
-			eventBusImages.propagate(EventImageCaptured(mat));
 			
-			THEN("It emits an orange detected event") {
+			mat = imread(ball01);
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+			
+			THEN ( "Can find the cap") {
 				EventOrangeDetected e = receiver.getEvent();
-				REQUIRE( e.hasDetectedSomething() );
+				REQUIRE(e.hasDetectedSomething() );
+				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(435, 10));
 			}
 		}
-		WHEN("Propagating a new image event NOT containing a detectable orange") {
+
+		WHEN( "Shown with a geek holding a cap (2)") {
+			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-02.jpg");
+			
+			mat = imread(ball01);
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+			THEN ( "Can find the cap (2)") {
+				EventOrangeDetected e = receiver.getEvent();
+				REQUIRE(e.hasDetectedSomething());
+				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(240, 10));
+			}
+		}
+
+		WHEN( "Shown with one nice lady") {
+			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-01.jpg");
+			
+			mat = imread(ball01);
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
+			THEN ( "Can find the ball") {
+				EventOrangeDetected e = receiver.getEvent();
+				REQUIRE(e.hasDetectedSomething());
+				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(360, 10));
+			}
+		}
+		
+		WHEN( "Shown with a hand grabbing an orange") {
+			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-02.jpg");
+			
+			mat = imread(ball01);
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
+			THEN ( "Sadly, misses the orange") {
+				EventOrangeDetected e = receiver.getEvent();
+				REQUIRE(e.hasDetectedSomething());
+				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(215, 10));
+			}
+		}
+
+		WHEN( "Shown with a lady holding a basked ball") {
+			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-03.jpg");
+			
+			mat = imread(ball01);
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
+			THEN ( "Can find the ball") {
+				EventOrangeDetected e = receiver.getEvent();
+				REQUIRE(e.hasDetectedSomething());
+				REQUIRE_THAT( e.getBallPosition().x, WithinAbs(360, 10));
+			}
+		}
+		WHEN( "Shown with a broccoli") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/broccoli-01.jpg");
-			Mat mat = imread(ball01);
 			
-			eventBusImages.propagate(EventImageCaptured(mat));
-			
-			THEN("It emits an orange detected event") {
+			mat = imread(ball01);
+			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
+			THEN ( "Won't find the ball") {
 				EventOrangeDetected e = receiver.getEvent();
-				REQUIRE( e.hasDetectedSomething() == false );
+				REQUIRE( e.hasDetectedSomething() == false);
 			}
 		}
+		capturedImageEventBus.unsubscribe(&orangeBallDetector);
 	}
+	orangeDetectedEventBus.unsubscribe(&receiver);
 }
-
-
