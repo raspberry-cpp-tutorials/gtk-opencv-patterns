@@ -11,7 +11,7 @@
 CameraDrawingArea::CameraDrawingArea():
 captureThread(nullptr),
 videoCapture(0),
-movieMaker(obtainPathToHomeFolder().append("/live.avi"), 20.0) {
+movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0) {
 	startCapturing();
 }
 

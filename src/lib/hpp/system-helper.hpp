@@ -3,7 +3,7 @@
 
 #include <string>
 
-std::string obtainPathToHomeFolder();
-void obtainPathToHomeFolder(char *pathToHomeFolder);
+std::string obtainPathToDesktopFolder();
+void obtainPathToDesktopFolder(char *pathToDesktopFolder);
 
 #endif

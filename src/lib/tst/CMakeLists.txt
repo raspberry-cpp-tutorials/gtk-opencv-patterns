@@ -26,7 +26,6 @@ target_link_libraries(rasctest
 	rasclib
 	${OpenCV_LIBS} 
 	pthread
-	stdc++fs
 )
 
 # Adds the executable to the test goal:
