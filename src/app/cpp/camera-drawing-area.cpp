@@ -1,8 +1,9 @@
-#include "opencv2/imgproc.hpp"
-#include "opencv2/core.hpp"
-#include "opencv2/highgui.hpp"
-
 #include "camera-drawing-area.hpp"
+#include "system-helper.hpp"
+
+#include <opencv2/imgproc.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -10,7 +11,7 @@
 CameraDrawingArea::CameraDrawingArea():
 captureThread(nullptr),
 videoCapture(0),
-movieMaker("./live.avi", 20.0) {
+movieMaker(obtainPathToHomeFolder().append("/live.avi"), 20.0) {
 	startCapturing();
 }
 
@@ -52,7 +53,7 @@ bool CameraDrawingArea::everyNowAndThen() {
 		Gdk::Rectangle r(0, 0, width, height);
 		win->invalidate_rect(r, false);
 	}
-	
+
 	// Don't stop calling me:
 	return true;
 }
@@ -63,7 +64,7 @@ bool CameraDrawingArea::everyNowAndThen() {
 void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
 	// Call the parent to do whatever needs to be done:
 	DrawingArea::on_size_allocate(allocation);
-	
+
 	// Remember the new allocated size for resizing operation:
 	width = allocation.get_width();
 	height = allocation.get_height();
@@ -75,7 +76,7 @@ void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
  * another object, or every now and then.
  */
 bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
-	
+
 	// Prevent the drawing if size is 0:
 	if (width == 0 || height == 0) {
 		return true;
@@ -89,7 +90,7 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 	// Detect the ball:
 	orangeBallDetector.detect(webcam);
-	
+
 	// Resize it to the allocated size of the Widget.
 	resize(orangeBallDetector.getImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
 
@@ -106,7 +107,7 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 	// Display
 	Gdk::Cairo::set_source_pixbuf(cr, pixbuf);
 	cr->paint();
-	
+
 	// Don't stop calling me.
 	return true;
 }

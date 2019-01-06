@@ -13,13 +13,13 @@ m_label1("First Label") {
 	m_button.signal_clicked().connect(
 	    sigc::mem_fun(*this, &MainWindow::buttonClick));
 	m_button.show();
-	
+
 	// Make the first label visible:
 	m_label1.show();
 
 	// Make the second label visible:
 	cameraDrawingArea.show();
-	
+
 	// Pack all elements in the box:
 	m_box.pack_start(m_button, Gtk::PACK_SHRINK);
 	m_box.pack_start(m_label1, Gtk::PACK_SHRINK);
@@ -27,10 +27,10 @@ m_label1("First Label") {
 
 	// Add the box in this window:
 	add(m_box);
-	
+
 	// Make the box visible:
 	m_box.show();
-	
+
 	// Activate Key-Press events
 	add_events(Gdk::KEY_PRESS_MASK);
 }
@@ -41,15 +41,15 @@ void MainWindow::buttonClick() {
 
 bool MainWindow::on_key_press_event(GdkEventKey* event) {
 	switch (event->keyval) {
-		// Ctrl + C: Ends the app:
+		// Ctrl + C: Ends the application:
 		case GDK_KEY_C:
 		case GDK_KEY_c:
 			if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
 				get_application()->quit();
 			}
 			return true;
-			
-		// [F] toggles fullscreen mode:
+
+		// [F] toggles full screen mode:
 		case GDK_KEY_F:
 		case GDK_KEY_f:
 			if (probablyInFullScreen) {
@@ -60,13 +60,13 @@ bool MainWindow::on_key_press_event(GdkEventKey* event) {
 				probablyInFullScreen = true;
 			}
 			return true;
-			
-		// [esc] exits fullscreen mode:
+
+		// [esc] exits full screen mode:
 		case GDK_KEY_Escape:
 			unfullscreen();
 			probablyInFullScreen = false;
 			return true;
 	}
-	
+
 	return false;
 }

@@ -7,6 +7,7 @@ find_package( OpenCV REQUIRED )
 add_library(rasclib
 	cpp/orange-ball-detector
 	cpp/movie-maker
+	cpp/system-helper
 )
 
 # Define headers for this library. When PUBLIC, headers used for
@@ -18,6 +19,7 @@ target_include_directories(rasclib PUBLIC hpp)
 target_link_libraries(rasclib
 	${OpenCV_LIBS} 
 	pthread
+	userenv.lib
 )
 
 # This makes the project importable from the build directory
