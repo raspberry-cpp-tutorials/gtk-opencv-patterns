@@ -26,6 +26,7 @@ private:
 };
 
 SCENARIO("Can detect orange balls in an image") {
+
 	GIVEN( "A ball detector subscribed to image captures") {
 
 		EventBus<EventImageCaptured> capturedImageEventBus;
@@ -57,6 +58,7 @@ SCENARIO("Can detect orange balls in an image") {
 			
 			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
 			THEN ( "Can find the cap (2)") {
 				EventOrangeDetected e = receiver.getEvent();
 				REQUIRE(e.hasDetectedSomething());
@@ -76,7 +78,7 @@ SCENARIO("Can detect orange balls in an image") {
 				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(360, 10));
 			}
 		}
-		
+
 		WHEN( "Shown with a hand grabbing an orange") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/ball-02.jpg");
 			
@@ -95,6 +97,7 @@ SCENARIO("Can detect orange balls in an image") {
 			
 			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
+
 
 			THEN ( "Can find the ball") {
 				EventOrangeDetected e = receiver.getEvent();

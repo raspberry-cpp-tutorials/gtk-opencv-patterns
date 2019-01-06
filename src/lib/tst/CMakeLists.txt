@@ -18,6 +18,7 @@ add_executable(rasctest
 	orange-ball-detector-test
 	movie-maker-test
 	event-bus-test
+	system-helper-test
 )
 
 target_include_directories(rasctest PRIVATE ${PROJECT_BINARY_DIR})

@@ -4,12 +4,13 @@
 #include "event-bus.hpp"
 #include "movie-maker.hpp"
 #include "orange-ball-detector.hpp"
+#include "system-helper.hpp"
 
 int main (int argc, char *argv[]) {
 
 	CaptureImageFromCamera captureImageFromCamera;
 	OrangeBallDetector orangeBallDetector;
-	MovieMaker movieMaker("/Users/jmgonet/Desktop/live.avi", 20.0);
+	MovieMaker movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0);
 
 	EventBus<EventImageCaptured> eventImageBus;
 	eventImageBus.subscribe(&orangeBallDetector);

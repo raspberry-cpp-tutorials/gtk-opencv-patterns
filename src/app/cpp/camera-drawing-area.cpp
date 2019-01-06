@@ -1,6 +1,9 @@
 #include "camera-drawing-area.hpp"
+#include "system-helper.hpp"
 
 #include <opencv2/imgproc.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
 
 CameraDrawingArea::CameraDrawingArea() {
 	eventBus.subscribe(this);
@@ -25,7 +28,7 @@ void CameraDrawingArea::receive(EventOrangeDetected e) {
 void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
 	// Call the parent to do whatever needs to be done:
 	DrawingArea::on_size_allocate(allocation);
-	
+
 	// Remember the new allocated size for resizing operation:
 	width = allocation.get_width();
 	height = allocation.get_height();
