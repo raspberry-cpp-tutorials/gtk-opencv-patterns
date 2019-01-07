@@ -17,6 +17,6 @@ void obtainPathToDesktopFolder(char *pathToDesktopFolder) {
 
 string obtainPathToDesktopFolder() {
     char pathToDesktopFolder[256];
-    obtainPathToHomeFolder(pathToDesktopFolder);
+    obtainPathToDesktopFolder(pathToDesktopFolder);
     return pathToDesktopFolder;
 }
