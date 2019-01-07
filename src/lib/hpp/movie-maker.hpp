@@ -2,7 +2,6 @@
 #define MOVIE_MAKER_HPP
 
 #include <opencv2/videoio.hpp>
-#include <cstring>
 
 class MovieMaker {
 public:

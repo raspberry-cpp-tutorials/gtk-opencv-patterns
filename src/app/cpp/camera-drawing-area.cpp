@@ -2,11 +2,6 @@
 #include "system-helper.hpp"
 
 #include <opencv2/imgproc.hpp>
-#include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-
-#include <unistd.h>
-#include <sys/types.h>
 
 CameraDrawingArea::CameraDrawingArea():
 captureThread(nullptr),

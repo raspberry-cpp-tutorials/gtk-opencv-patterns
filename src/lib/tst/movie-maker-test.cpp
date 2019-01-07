@@ -1,8 +1,8 @@
-#include "catch.hpp"
 #include "movie-maker.hpp"
 #include "test-config.h"
 
-#include <cstring>
+#include "catch.hpp"
+
 #include <opencv2/highgui.hpp>
 
 using namespace std;

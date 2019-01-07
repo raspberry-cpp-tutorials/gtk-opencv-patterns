@@ -1,9 +1,5 @@
 #include "movie-maker.hpp"
 
-#include <opencv2/highgui.hpp>
-#include <opencv2/videoio.hpp>
-#include <cstring>
-
 using namespace std;
 using namespace cv;
 

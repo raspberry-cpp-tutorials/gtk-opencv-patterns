@@ -1,14 +1,13 @@
-#ifndef CAMERA_DRAWING_AREA_H
-#define CAMERA_DRAWING_AREA_H
+#ifndef CAMERA_DRAWING_AREA_HPP
+#define CAMERA_DRAWING_AREA_HPP
 
-#include <thread>
-#include <mutex>
+#include "movie-maker.hpp"
+#include "orange-ball-detector.hpp"
 
 #include <opencv2/highgui.hpp>
 #include <gtkmm.h>
 
-#include "movie-maker.hpp"
-#include "orange-ball-detector.hpp"
+#include <thread>
 
 class CameraDrawingArea :
 public Gtk::DrawingArea {
