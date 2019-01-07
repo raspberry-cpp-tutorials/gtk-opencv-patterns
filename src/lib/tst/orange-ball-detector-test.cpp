@@ -19,25 +19,25 @@ SCENARIO("Can detect orange balls in an image") {
 		OrangeBallDetector orangeBallDetector;
 		orangeBallDetector.setDebug(false);
 
-		WHEN( "Shown with a geek holding a cap") {
+		WHEN( "Shown with a geek holding an orange") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/orange-01.jpg");
 
 			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 
-			THEN ( "Can find the cap") {
+			THEN ( "Can find the orange") {
 				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(435, 10));
 			}
 		}
-		WHEN( "Shown with a geek holding a cap (2)") {
+		WHEN( "Shown with a geek holding an orange (2)") {
 			string ball01 = string(pathToTestData);
 			ball01.append("/orange-02.jpg");
 
 			mat = imread(ball01);
 			orangeBallDetector.detect(mat);
 
-			THEN ( "Can find the cap (2)") {
+			THEN ( "Can find the orange (2)") {
 				REQUIRE_THAT( orangeBallDetector.getBallPosition().x, WithinAbs(240, 10));
 			}
 		}
