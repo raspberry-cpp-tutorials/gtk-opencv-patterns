@@ -1,8 +1,8 @@
 #include "system-helper.hpp"
 
 #include <unistd.h>
-#include <sys/types.h>
 #include <pwd.h>
+#include <string.h>
 
 using namespace std;
 
