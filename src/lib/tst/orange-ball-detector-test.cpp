@@ -40,26 +40,26 @@ SCENARIO("Can detect orange balls in an image") {
 		// Set debug to 'true' to see intermediary images:
 		orangeBallDetector.setDebug(false);
 
-		WHEN( "Shown with a geek holding a cap") {
+		WHEN( "Shown with a geek holding an orange") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-01.jpg");
 			
 			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 			
-			THEN ( "Can find the cap") {
+			THEN ( "Can find the orange") {
 				EventOrangeDetected e = receiver.getEvent();
 				REQUIRE(e.hasDetectedSomething() );
 				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(435, 10));
 			}
 		}
 
-		WHEN( "Shown with a geek holding a cap (2)") {
+		WHEN( "Shown with a geek holding an orange (2)") {
 			string ball01 = string(PATH_TO_TEST_DATA).append("/orange-02.jpg");
 			
 			Mat mat = imread(ball01);
 			capturedImageEventBus.propagate(EventImageCaptured(mat));
 
-			THEN ( "Can find the cap (2)") {
+			THEN ( "Can find the orange (2)") {
 				EventOrangeDetected e = receiver.getEvent();
 				REQUIRE(e.hasDetectedSomething());
 				REQUIRE_THAT(e.getBallPosition().x, WithinAbs(240, 10));
