@@ -1,10 +1,7 @@
-#include <cstring>
-
-#include <opencv2/highgui.hpp>
-
-#include "catch.hpp"
 #include "orange-ball-detector.hpp"
 #include "test-config.h"
+
+#include "catch.hpp"
 
 using namespace std;
 using namespace cv;

@@ -1,5 +1,6 @@
-#include <iostream>
 #include "main-window.hpp"
+
+#include <iostream>
 
 MainWindow::MainWindow(int width, int height):
 probablyInFullScreen(false),

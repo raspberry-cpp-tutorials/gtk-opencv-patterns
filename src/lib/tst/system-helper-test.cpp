@@ -1,9 +1,8 @@
-#include "catch.hpp"
 #include "system-helper.hpp"
 
-#include <string>
+#include "catch.hpp"
+
 #include <dirent.h>
-#include <stdio.h>
 
 using namespace std;
 

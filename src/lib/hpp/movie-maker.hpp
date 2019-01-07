@@ -6,8 +6,6 @@
 
 #include <opencv2/videoio.hpp>
 
-#include <cstring>
-
 class MovieMaker: public Subscriptor<EventImageCaptured> {
 public:
 	MovieMaker(std::string fileName, double fps);
