@@ -79,6 +79,9 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 
 	// Capture one image from camera:
 	videoCapture.read(webcam);
+	if (webcam.size().width == 0) {
+		return true;
+	}
 
 	// Stream it in video:
 	movieMaker.addPhotogram(webcam);
