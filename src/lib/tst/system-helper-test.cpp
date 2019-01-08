@@ -3,6 +3,7 @@
 #include "catch.hpp"
 
 #include <dirent.h>
+#include <string.h>
 
 using namespace std;
 
