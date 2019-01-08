@@ -57,7 +57,7 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
 		Gdk::Cairo::set_source_pixbuf(cr, pixbuf);
 		cr->paint();
 	}
-	
+
 	// Don't stop calling me.
 	return true;
 }
