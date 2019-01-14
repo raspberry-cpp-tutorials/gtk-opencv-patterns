@@ -3,3 +3,4 @@
 /xcode
 /codeb
 compile_commands.json
+*.swp
