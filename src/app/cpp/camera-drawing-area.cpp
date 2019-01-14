@@ -45,8 +45,7 @@ void CameraDrawingArea::doCapture() {
 bool CameraDrawingArea::everyNowAndThen() {
 	auto win = get_window();
 	if (win) {
-		Gdk::Rectangle r(0, 0, width, height);
-		win->invalidate_rect(r, false);
+		win->invalidate(false);
 	}
 
 	// Don't stop calling me:
