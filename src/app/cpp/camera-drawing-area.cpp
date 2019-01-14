@@ -6,6 +6,9 @@
 CameraDrawingArea::CameraDrawingArea() {
 	eventBus.subscribe(this);
 }
+CameraDrawingArea::~CameraDrawingArea() {
+	eventBus.unsubscribe(this);
+}
 
 /**
  * Each time we receive a new image, we invalidate the

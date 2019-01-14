@@ -13,7 +13,7 @@ public Gtk::DrawingArea,
 public Subscriptor<EventOrangeDetected> {
 public:
     CameraDrawingArea();
-    virtual ~CameraDrawingArea() = default;
+    virtual ~CameraDrawingArea();
 	void receive(EventOrangeDetected e) override;
     
 protected:
