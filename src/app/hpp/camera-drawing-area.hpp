@@ -26,6 +26,9 @@ private:
 	void stopCapturing();
 	bool keepCapturing;
 	void doCapture();
+    void doProcess(cv::Mat image);
+    Glib::Dispatcher dispatchInvalidate;
+    void doInvalidate();
 	std::thread* captureThread;
 	cv::VideoCapture videoCapture;
 	MovieMaker movieMaker;
