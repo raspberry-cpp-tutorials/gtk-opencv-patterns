@@ -9,3 +9,5 @@ let g:ConqueTerm_Color = 0
 let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_Interrupt = '<C-g><C-c>'
 let g:ConqueTerm_ReadUnfocused = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1  "For YouCompleteMe to close the preview window
+let g:ycm_autoclose_preview_window_after_completion = 1 "after the completion is finished.
