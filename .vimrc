@@ -4,3 +4,5 @@ set cindent shiftwidth=4        " In C/C++, size of the tabulation increase each
 set tabstop=4                   " In all files, size of the Tab
 set expandtab                   " Use spaces instead of Tab
 autocmd vimenter * NERDTreeVCS  " Automatically opens NERDTree
+let g:ycm_autoclose_preview_window_after_insertion = 1  "For YouCompleteMe to close the preview window
+let g:ycm_autoclose_preview_window_after_completion = 1 "after the completion is finished.
