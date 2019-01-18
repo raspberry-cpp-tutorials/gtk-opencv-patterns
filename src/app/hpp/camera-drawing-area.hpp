@@ -19,10 +19,10 @@ public:
 protected:
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
 	void on_size_allocate (Gtk::Allocation& allocation) override;
-	
-	bool everyNowAndThen();
 
 private:
+    Glib::Dispatcher dispatchInvalidate;
+    void doInvalidate();
 	cv::Mat webcam;
 	cv::Mat output;
 	int width, height;
