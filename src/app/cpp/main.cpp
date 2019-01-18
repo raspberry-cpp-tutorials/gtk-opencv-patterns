@@ -7,16 +7,19 @@
 #include "system-helper.hpp"
 
 int main (int argc, char *argv[]) {
+    CaptureImageFromCamera captureImageFromCamera;
+    OrangeBallDetector orangeBallDetector;
+    MovieMaker movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0);
 
-	CaptureImageFromCamera captureImageFromCamera;
-	OrangeBallDetector orangeBallDetector;
-	MovieMaker movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0);
+    EventBus<EventImageCaptured> eventImageBus;
+    eventImageBus.subscribe(&orangeBallDetector);
+    eventImageBus.subscribe(&movieMaker);
 
-	EventBus<EventImageCaptured> eventImageBus;
-	eventImageBus.subscribe(&orangeBallDetector);
-	eventImageBus.subscribe(&movieMaker);
+    auto app = Gtk::Application::create(
+            argc, 
+            argv, 
+            "ch.agl-developpement.cpp-tutorial.raspberry-cpp-gtk-opencv");
 
-	auto app = Gtk::Application::create(argc, argv, "ch.agl-developpement.cpp-tutorial.raspberry-cpp-gtk-opencv");
-	MainWindow mainWindow(300, 300);
-	return app->run(mainWindow);	
+    MainWindow mainWindow(300, 300);
+    return app->run(mainWindow);    
 }

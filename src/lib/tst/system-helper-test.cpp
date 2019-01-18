@@ -16,35 +16,35 @@ int countNumberOfEntries(DIR *dir) {
             numberOfEntries++;
         }
     }
-	return numberOfEntries;
+    return numberOfEntries;
 }
 
 SCENARIO("Can obtain the path to the home folder") {
 
-	GIVEN( "That we need the home folder as old fashioned char") {
-	    char pathToDesktopFolder[255];
-		obtainPathToDesktopFolder(pathToDesktopFolder);
+    GIVEN( "That we need the home folder as old fashioned char") {
+        char pathToDesktopFolder[255];
+        obtainPathToDesktopFolder(pathToDesktopFolder);
 
-		WHEN( "Open it as a folder") {
-		    DIR *dir = opendir(pathToDesktopFolder);
+        WHEN( "Open it as a folder") {
+            DIR *dir = opendir(pathToDesktopFolder);
 
-			THEN ( "It has some entries") {
-			    REQUIRE( countNumberOfEntries(dir) > 0);
-				closedir(dir);
-            }
-		}
-	}
-
-	GIVEN("That we need the home folder as a string ('cos opencv likes it more)") {
-		string pathToDesktopFolder = obtainPathToDesktopFolder();
-
-        WHEN( "Open it as a folder" ) {
-		    DIR *dir = opendir(pathToDesktopFolder.c_str());
-			
-			THEN ( "It has some entries") {
-			    REQUIRE( countNumberOfEntries(dir) > 0);
-				closedir(dir);
+            THEN ( "It has some entries") {
+                REQUIRE( countNumberOfEntries(dir) > 0);
+                closedir(dir);
             }
         }
-	}
+    }
+
+    GIVEN("That we need the home folder as a string ('cos opencv likes it more)") {
+        string pathToDesktopFolder = obtainPathToDesktopFolder();
+
+        WHEN( "Open it as a folder" ) {
+            DIR *dir = opendir(pathToDesktopFolder.c_str());
+            
+            THEN ( "It has some entries") {
+                REQUIRE( countNumberOfEntries(dir) > 0);
+                closedir(dir);
+            }
+        }
+    }
 }

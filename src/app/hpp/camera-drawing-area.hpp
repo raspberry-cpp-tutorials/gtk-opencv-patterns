@@ -6,7 +6,6 @@
 
 #include <opencv2/highgui.hpp>
 #include <gtkmm.h>
-#include <thread>
 
 class CameraDrawingArea :
 public Gtk::DrawingArea,
@@ -27,6 +26,5 @@ private:
 	cv::Mat output;
 	int width, height;
 	EventBus<EventOrangeDetected> eventBus;
-
 };
 #endif

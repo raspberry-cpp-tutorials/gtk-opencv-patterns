@@ -25,10 +25,10 @@ using namespace std;
 template <class T>
 class Subscriptor {
 public:
-	/** @brief Calls the subscriptor providing the event.
-	 * @param event The event.
-	 */
-	virtual void receive(T event) = 0;
+    /** @brief Calls the subscriptor providing the event.
+     * @param event The event.
+     */
+    virtual void receive(T event) = 0;
 };
 
 /** @brief A static vector of Subscriptor.
@@ -37,7 +37,7 @@ public:
  */
 template <class T>
 struct SubscriptorsHolder {
-	static vector<Subscriptor<T> *> subscriptors;
+    static vector<Subscriptor<T> *> subscriptors;
 };
 
 /** @brief Declare the static variable, so it can be linked.
@@ -50,38 +50,43 @@ vector<Subscriptor<T> *> SubscriptorsHolder<T>::subscriptors;
 template <class T>
 class EventBus {
 public:
-	virtual ~EventBus() = default;
-	
-	/** @brief empties the list of subscribers.
-	 * You should not use this outside unit testing.
-	 */
-	virtual void clear() {
-		SubscriptorsHolder<T>::subscriptors.clear();
-	}
-	 
-	/** @brief Propagates the event to all subscriptors.
-	 * @param event The event.
-	 */
-	virtual void propagate(T event) {
-		for (unsigned int i = 0; i < SubscriptorsHolder<T>::subscriptors.size(); i++) {
-			Subscriptor<T> *subscriptor = SubscriptorsHolder<T>::subscriptors[i];
-			subscriptor->receive(event);
-		}
-	};
+    virtual ~EventBus() = default;
+    
+    /** @brief empties the list of subscribers.
+     * You should not use this outside unit testing.
+     */
+    virtual void clear() {
+        SubscriptorsHolder<T>::subscriptors.clear();
+    }
+     
+    /** @brief Propagates the event to all subscriptors.
+     * @param event The event.
+     */
+    virtual void propagate(T event) {
+        unsigned int nSubscriptors = SubscriptorsHolder<T>::subscriptors.size();
+        for (unsigned int i = 0; i < nSubscriptors; i++) {
+            Subscriptor<T> *subscriptor = SubscriptorsHolder<T>::subscriptors[i];
+            subscriptor->receive(event);
+        }
+    };
 
-	/** @brief Any class able to receive the event can subscribe.
-	 * @param subscriptor A pointer to an instance able to receive events.
-	 */
-	virtual void subscribe(Subscriptor<T> *subscriptor) {
-		SubscriptorsHolder<T>::subscriptors.push_back(subscriptor);
-	};
+    /** @brief Any class able to receive the event can subscribe.
+     * @param subscriptor A pointer to an instance able to receive events.
+     */
+    virtual void subscribe(Subscriptor<T> *subscriptor) {
+        SubscriptorsHolder<T>::subscriptors.push_back(subscriptor);
+    };
 
-	/** @brief Unsubscribes the specified subscriptor.
-	 * @param subscriptor A pointer to the subscriptor.
-	 */
-	virtual void unsubscribe(Subscriptor<T> *subscriptor) {
-		SubscriptorsHolder<T>::subscriptors.erase(remove(SubscriptorsHolder<T>::subscriptors.begin(), SubscriptorsHolder<T>::subscriptors.end(), subscriptor), SubscriptorsHolder<T>::subscriptors.end());
-	}
+    /** @brief Unsubscribes the specified subscriptor.
+     * @param subscriptor A pointer to the subscriptor.
+     */
+    virtual void unsubscribe(Subscriptor<T> *subscriptor) {
+        SubscriptorsHolder<T>::subscriptors.erase(
+                remove(SubscriptorsHolder<T>::subscriptors.begin(), 
+                    SubscriptorsHolder<T>::subscriptors.end(), 
+                    subscriptor), 
+                SubscriptorsHolder<T>::subscriptors.end());
+    }
 };
 
 #endif

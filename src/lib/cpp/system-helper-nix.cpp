@@ -7,13 +7,13 @@
 using namespace std;
 
 void obtainPathToDesktopFolder(char *pathToDesktopFolder) {
-	const char *pathToHomeFolder;
+    const char *pathToHomeFolder;
 
-	if ((pathToHomeFolder = getenv("HOME")) == NULL) {
-	    pathToHomeFolder = getpwuid(getuid())->pw_dir;
-	}
-	strcpy(pathToDesktopFolder, pathToHomeFolder);
-	strcat(pathToDesktopFolder, "/Desktop");
+    if ((pathToHomeFolder = getenv("HOME")) == NULL) {
+        pathToHomeFolder = getpwuid(getuid())->pw_dir;
+    }
+    strcpy(pathToDesktopFolder, pathToHomeFolder);
+    strcat(pathToDesktopFolder, "/Desktop");
 }
 
 string obtainPathToDesktopFolder() {
