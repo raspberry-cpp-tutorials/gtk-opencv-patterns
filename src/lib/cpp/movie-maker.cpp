@@ -20,13 +20,11 @@ void MovieMaker::receive(EventImageCaptured e) {
 }
 
 void MovieMaker::addPhotogram(Mat photogram) {
-    if (photogram.size().width > 0) {
-        if (!isMovieStarted) {
-            startMovie(photogram);
-            isMovieStarted = true;
-        }
-        videoWriter.write(photogram);
+    if (!isMovieStarted) {
+        startMovie(photogram);
+        isMovieStarted = true;
     }
+    videoWriter.write(photogram);
 }
 
 void MovieMaker::endMovie() {

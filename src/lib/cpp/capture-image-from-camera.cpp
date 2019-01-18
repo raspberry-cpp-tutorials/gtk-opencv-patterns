@@ -34,8 +34,10 @@ void CaptureImageFromCamera::doCapture() {
 		videoCapture.grab();
 		videoCapture.grab();
 		videoCapture.read(webcam);
-		eventBus.propagate(EventImageCaptured(webcam));
-	}
+        if (webcam.size().width > 0) {
+		    eventBus.propagate(EventImageCaptured(webcam));
+        }
+    }
 }
 
 EventImageCaptured::EventImageCaptured(cv::Mat i):
