@@ -74,11 +74,6 @@ void CameraDrawingArea::doInvalidate() {
     }
 }
 
-/**
- * Called every time the widget needs to be redrawn.
- * This happens when the Widget got resized, or obscured by
- * another object, or every now and then.
- */
 bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     if (output.size().width > 0) {
 
@@ -97,15 +92,12 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
         cr->paint();
     }
 
-    // Don't stop calling me.
     return true;
 }
 
 void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
-    // Call the parent to do whatever needs to be done:
     DrawingArea::on_size_allocate(allocation);
 
-    // Remember the new allocated size for resizing operation:
     width = allocation.get_width();
     height = allocation.get_height();
 }
