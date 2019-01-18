@@ -16,10 +16,12 @@ CameraDrawingArea::~CameraDrawingArea() {
 }
 
 void CameraDrawingArea::receive(EventOrangeDetected e) {
-	resize(e.getCapturedImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
-    
-    // Invalidate the window, but for that we need to be in the GUI thread.
-    dispatchInvalidate.emit();
+	if (width > 0 && height > 0) {
+		resize(e.getCapturedImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
+		
+		// Invalidate the window, but for that we need to be in the GUI thread.
+		dispatchInvalidate.emit();
+	}
 }
 
 void CameraDrawingArea::doInvalidate() {
