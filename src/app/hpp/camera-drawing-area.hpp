@@ -9,32 +9,29 @@
 
 #include <thread>
 
-class CameraDrawingArea :
-public Gtk::DrawingArea {
+class CameraDrawingArea : public Gtk::DrawingArea {
 public:
     CameraDrawingArea();
     virtual ~CameraDrawingArea();
-    
+
 protected:
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
-	void on_size_allocate (Gtk::Allocation& allocation) override;
-	
-	bool everyNowAndThen();
+    void on_size_allocate (Gtk::Allocation& allocation) override;
 
 private:
-	void startCapturing();
-	void stopCapturing();
-	bool keepCapturing;
-	void doCapture();
+    void startCapturing();
+    void stopCapturing();
+    bool keepCapturing;
+    void doCapture();
     void doProcess(cv::Mat image);
     Glib::Dispatcher dispatchInvalidate;
     void doInvalidate();
-	std::thread* captureThread;
-	cv::VideoCapture videoCapture;
-	MovieMaker movieMaker;
-	OrangeBallDetector orangeBallDetector;
-	cv::Mat webcam;
-	cv::Mat output;
-	int width, height;
+    std::thread* captureThread;
+    cv::VideoCapture videoCapture;
+    MovieMaker movieMaker;
+    OrangeBallDetector orangeBallDetector;
+    cv::Mat webcam;
+    cv::Mat output;
+    int width, height;
 };
 #endif

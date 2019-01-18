@@ -4,15 +4,15 @@
 #include <opencv2/imgproc.hpp>
 
 CameraDrawingArea::CameraDrawingArea():
-dispatchInvalidate(),
-captureThread(nullptr),
-videoCapture(0),
-movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0) {
-    startCapturing();
-    dispatchInvalidate.
-        connect(sigc::mem_fun(*this, 
-                    &CameraDrawingArea::doInvalidate));
-}
+    dispatchInvalidate(),
+    captureThread(nullptr),
+    videoCapture(0),
+    movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0) {
+        startCapturing();
+        dispatchInvalidate.
+            connect(sigc::mem_fun(*this, 
+                        &CameraDrawingArea::doInvalidate));
+    }
 
 CameraDrawingArea::~CameraDrawingArea() {
     stopCapturing();
@@ -50,10 +50,6 @@ void CameraDrawingArea::doCapture() {
     processThread->join();
 }
 
-/**
- * Every now and then, we invalidate the whole Widget rectangle,
- * forcing a complete refresh.
- */
 void CameraDrawingArea::doProcess(cv::Mat image) {
     if (image.size().width > 0) {
 
@@ -79,18 +75,6 @@ void CameraDrawingArea::doInvalidate() {
 }
 
 /**
- * Called every time the widget has its allocation changed.
- */
-void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
-    // Call the parent to do whatever needs to be done:
-    DrawingArea::on_size_allocate(allocation);
-
-    // Remember the new allocated size for resizing operation:
-    width = allocation.get_width();
-    height = allocation.get_height();
-}
-
-/**
  * Called every time the widget needs to be redrawn.
  * This happens when the Widget got resized, or obscured by
  * another object, or every now and then.
@@ -107,7 +91,7 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
                     output.cols,
                     output.rows,
                     (int) output.step);
-        
+
         // Display
         Gdk::Cairo::set_source_pixbuf(cr, pixbuf);
         cr->paint();
@@ -116,3 +100,13 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     // Don't stop calling me.
     return true;
 }
+
+void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
+    // Call the parent to do whatever needs to be done:
+    DrawingArea::on_size_allocate(allocation);
+
+    // Remember the new allocated size for resizing operation:
+    width = allocation.get_width();
+    height = allocation.get_height();
+}
+
