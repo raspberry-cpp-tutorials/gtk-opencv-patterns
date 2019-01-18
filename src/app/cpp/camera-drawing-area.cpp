@@ -15,10 +15,6 @@ CameraDrawingArea::~CameraDrawingArea() {
 	eventBus.unsubscribe(this);
 }
 
-/**
- * Each time we receive a new image, we invalidate the
- * whole Widget rectangle, forcing a complete refresh.
- */
 void CameraDrawingArea::receive(EventOrangeDetected e) {
 	resize(e.getCapturedImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
     
