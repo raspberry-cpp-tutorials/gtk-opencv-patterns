@@ -4,42 +4,42 @@ CaptureImageFromCamera::CaptureImageFromCamera():
 captureThread(nullptr),
 propagateThread(nullptr),
 videoCapture(0) {
-	startCapturing();
+    startCapturing();
 }
 
 CaptureImageFromCamera::~CaptureImageFromCamera() {
-	stopCapturing();
+    stopCapturing();
 }
 
 void CaptureImageFromCamera::startCapturing() {
-	if (!captureThread) {
-		keepCapturing = true;
-		captureThread = new std::thread([this] {
-			doCapture();
-		});
-	}
+    if (!captureThread) {
+        keepCapturing = true;
+        captureThread = new std::thread([this] {
+            doCapture();
+        });
+    }
 }
 
 void CaptureImageFromCamera::stopCapturing() {
-	if (captureThread) {
-		keepCapturing = false;
-		captureThread->join();
-		free(captureThread);
-		captureThread = nullptr;
-	}
-	if (propagateThread) {
+    if (captureThread) {
+        keepCapturing = false;
+        captureThread->join();
+        free(captureThread);
+        captureThread = nullptr;
+    }
+    if (propagateThread) {
         propagateThread->join();
         free(propagateThread);
         propagateThread = nullptr;
-	}
+    }
 }
 
 void CaptureImageFromCamera::doCapture() {
-	do {
-		videoCapture.grab();
-		videoCapture.grab();
-		videoCapture.grab();
-		videoCapture.read(webcam);
+    do {
+        videoCapture.grab();
+        videoCapture.grab();
+        videoCapture.grab();
+        videoCapture.read(webcam);
         if (webcam.size().width > 0) {
             doPropagate();
         }
@@ -60,5 +60,5 @@ capturedImage(i){
 }
 
 cv::Mat EventImageCaptured::getCapturedImage() {
-	return capturedImage;
+    return capturedImage;
 }
