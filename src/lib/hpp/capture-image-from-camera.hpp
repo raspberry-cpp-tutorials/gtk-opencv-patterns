@@ -25,7 +25,9 @@ public:
 private:
 	bool keepCapturing;
 	void doCapture();
+	void doPropagate();
 	std::thread* captureThread;
+	std::thread* propagateThread;
 	cv::VideoCapture videoCapture;
 	cv::Mat webcam;
 	EventBus<EventImageCaptured> eventBus;

@@ -2,6 +2,7 @@
 
 CaptureImageFromCamera::CaptureImageFromCamera():
 captureThread(nullptr),
+propagateThread(nullptr),
 videoCapture(0) {
 	startCapturing();
 }
@@ -26,18 +27,32 @@ void CaptureImageFromCamera::stopCapturing() {
 		free(captureThread);
 		captureThread = nullptr;
 	}
+	if (propagateThread) {
+        propagateThread->join();
+        free(propagateThread);
+        propagateThread = nullptr;
+	}
 }
 
 void CaptureImageFromCamera::doCapture() {
-	while (keepCapturing) {
+	do {
 		videoCapture.grab();
 		videoCapture.grab();
 		videoCapture.grab();
 		videoCapture.read(webcam);
         if (webcam.size().width > 0) {
-		    eventBus.propagate(EventImageCaptured(webcam));
+            doPropagate();
         }
+    } while (keepCapturing);
+}
+
+void CaptureImageFromCamera::doPropagate() {
+    if (propagateThread) {
+        propagateThread->join();
     }
+    propagateThread = new std::thread([this] {
+        eventBus.propagate(EventImageCaptured(webcam));
+    });
 }
 
 EventImageCaptured::EventImageCaptured(cv::Mat i):
