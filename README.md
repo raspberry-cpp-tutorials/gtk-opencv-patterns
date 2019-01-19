@@ -37,7 +37,7 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ../src
 ```
 
-And, to run it:
+To run it:
 
 ```Bash
 ./app/rascapp
