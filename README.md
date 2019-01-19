@@ -23,10 +23,27 @@ In the [Wiki](https://github.com/raspberry-cpp-tutorials/gtk-opencv-patterns/wik
 - Etc.
 - Master branch contains the final code, all steps together.
 
-# Cross-platform application
+# Cross-platform development environment
 An important element is to be able to build and test your project in your preferred desktop computer or notebook. _Raspberry Pi_ is meant to be an embedded system platform, and it is an amazing one. Still, it lacks the right keyboard, mouse, monitor or amount of memory required to be a comfortable as a development tool.
 
-You find in Wiki the detailed instructions to install a working development environment in the three major operative systems:
+In short, the project is configured via _cmake_ which makes it compatible with _XCode_, _Code::Build_, _gcc_ and other development tools, and this is what you need to do from either a _Mac OS X Terminal_, a _Linux Terminal_ or a _MinGW Terminal_:
+
+```Bash
+cd ~/to/your/working/folder
+git clone https://github.com/raspberry-cpp-tutorials/gtk-opencv-patterns.git
+cd gtk-opencv-patterns.git
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ../src
+```
+
+And, to run it:
+
+```Bash
+./app/rascapp
+```
+
+There are more detailed instructions to install a working development environment in the three major operative systems:
 
 * [Installing Mac OS X development environment](https://github.com/raspberry-cpp-tutorials/gtk-opencv-simple/wiki/Mac-OS-X-development-environment)
 * [Installing Windows development environment](https://github.com/raspberry-cpp-tutorials/gtk-opencv-simple/wiki/Windows-development-environment)
