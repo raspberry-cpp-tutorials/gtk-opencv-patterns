@@ -35,6 +35,7 @@ cd gtk-opencv-patterns.git
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ../src
+ctest --output-on-failure
 ```
 
 To run the application:
