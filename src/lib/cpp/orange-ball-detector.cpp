@@ -8,6 +8,9 @@ void OrangeBallDetector::receive(EventImageCaptured e) {
 
 void OrangeBallDetector::detect(cv::Mat image) {
     double width = image.size().width;
+    if (image.size().width == 0) {
+        return;
+    }
     radius = 0;
     ballPosition.x = 0;
     ballPosition.y = 0;
