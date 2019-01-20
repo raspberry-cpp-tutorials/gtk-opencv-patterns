@@ -16,6 +16,7 @@ add_executable(rascapp
     cpp/main.cpp
     cpp/main-window.cpp
     cpp/camera-drawing-area.cpp
+    cpp/service-locator.cpp
 )
 
 # Add folder with all headers:
