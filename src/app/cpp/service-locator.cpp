@@ -4,48 +4,39 @@
 
 ServiceLocator * ServiceLocator::serviceLocator = nullptr;
 
-MovieMaker * ServiceLocator::movieMaker = nullptr;
-
-CaptureImageFromCamera * ServiceLocator::captureImageFromCamera = nullptr;
-
-OrangeBallDetector * ServiceLocator::orangeBallDetector = nullptr;
-
 void ServiceLocator::startUp() {
     serviceLocator = new ServiceLocator();
 }
 
-ServiceLocator::ServiceLocator() {
-    CaptureImageFromCamera captureImageFromCamera;
-    OrangeBallDetector orangeBallDetector;
-    MovieMaker movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0);
+ServiceLocator * ServiceLocator::obtainInstance() {
+    if (!serviceLocator) {
+        startUp();
+    }
+    return serviceLocator;
+}
 
-    EventBus<EventImageCaptured> eventImageBus;
+ServiceLocator::ServiceLocator():
+movieMaker(obtainPathToDesktopFolder().append("/live.avi"), 20.0),
+captureImageFromCamera(),
+orangeBallDetector(),
+eventImageBus() {
     eventImageBus.subscribe(&orangeBallDetector);
     eventImageBus.subscribe(&movieMaker);
 }
 
 ServiceLocator::~ServiceLocator() {
-
+    eventImageBus.unsubscribe(&orangeBallDetector);
+    eventImageBus.unsubscribe(&movieMaker);
 }
 
 MovieMaker * ServiceLocator::locateMovieMaker() {
-    if (!movieMaker) {
-        movieMaker = buildMovieMaker();
-    }
-    return movieMaker;
+    return &movieMaker;
 }
-MovieMaker * ServiceLocator::buildMovieMaker() {
-}
+
 CaptureImageFromCamera * ServiceLocator::locateCaptureImageFromCamera() {
-    if (!captureImageFromCamera) {
-        captureImageFromCamera = buildCaptureImageFromCamera();
-    }
-    return captureImageFromCamera;
+    return &captureImageFromCamera;
 }
 
 OrangeBallDetector * ServiceLocator::locateOrangeBallDetector() {
-    if (!orangeBallDetector) {
-        orangeBallDetector = buildOrangeBallDetector();
-    }
-    return orangeBallDetector;
+    return &orangeBallDetector;
 }

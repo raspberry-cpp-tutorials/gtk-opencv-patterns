@@ -9,7 +9,7 @@ class ServiceLocator {
 public:
     ServiceLocator();
     virtual ~ServiceLocator();
-    void startUp();
+    static void startUp();
     static ServiceLocator * obtainInstance();
     MovieMaker * locateMovieMaker();
     CaptureImageFromCamera * locateCaptureImageFromCamera();
@@ -17,9 +17,11 @@ public:
     
 private:
     static ServiceLocator * serviceLocator;
-    static MovieMaker * movieMaker;
-    static CaptureImageFromCamera * captureImageFromCamera;
-    static OrangeBallDetector * orangeBallDetector;
-}
+    
+    MovieMaker movieMaker;
+    CaptureImageFromCamera captureImageFromCamera;
+    OrangeBallDetector orangeBallDetector;
+    EventBus<EventImageCaptured> eventImageBus;
+};
 
 #endif

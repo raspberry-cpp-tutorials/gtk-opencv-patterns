@@ -5,6 +5,8 @@
 
 int main (int argc, char *argv[]) {
 
+    ServiceLocator::startUp();
+    
     auto app = Gtk::Application::create(
             argc, 
             argv, 
