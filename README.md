@@ -14,6 +14,8 @@ I'm using the following technical stack:
 # Used patterns
 - Event Bus
 - Inversion of Control
+- Service Locator
+- Singleton
 - Conditional modules (via cmake)
 
 # The branches structure
