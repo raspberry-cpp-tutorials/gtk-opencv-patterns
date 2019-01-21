@@ -7,21 +7,27 @@
 
 class ServiceLocator {
 public:
-    ServiceLocator();
     virtual ~ServiceLocator();
+
     static void startUp();
-    static ServiceLocator * obtainInstance();
-    MovieMaker * locateMovieMaker();
-    CaptureImageFromCamera * locateCaptureImageFromCamera();
-    OrangeBallDetector * locateOrangeBallDetector();
-    
+    static ServiceLocator * getInstance();
+    static MovieMaker * getMovieMaker();
+    static CaptureImageFromCamera * getCaptureImageFromCamera();
+    static OrangeBallDetector * getOrangeBallDetector();
+
+    // Don't copy a singleton.
+    ServiceLocator(const ServiceLocator&) = delete;
+    // Don't copy a singleton.
+    ServiceLocator& operator= (const ServiceLocator&) = delete;
+
 private:
-    static ServiceLocator * serviceLocator;
-    
     MovieMaker movieMaker;
     CaptureImageFromCamera captureImageFromCamera;
     OrangeBallDetector orangeBallDetector;
     EventBus<EventImageCaptured> eventImageBus;
+    
+    // Don't instantiate a singleton.
+    ServiceLocator();
 };
 
 #endif

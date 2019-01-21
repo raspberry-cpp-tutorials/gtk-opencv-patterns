@@ -2,17 +2,13 @@
 
 #include "system-helper.hpp"
 
-ServiceLocator * ServiceLocator::serviceLocator = nullptr;
-
 void ServiceLocator::startUp() {
-    serviceLocator = new ServiceLocator();
+    getInstance();
 }
 
-ServiceLocator * ServiceLocator::obtainInstance() {
-    if (!serviceLocator) {
-        startUp();
-    }
-    return serviceLocator;
+ServiceLocator * ServiceLocator::getInstance() {
+    static ServiceLocator serviceLocator;
+    return &serviceLocator;
 }
 
 ServiceLocator::ServiceLocator():
@@ -29,14 +25,14 @@ ServiceLocator::~ServiceLocator() {
     eventImageBus.unsubscribe(&movieMaker);
 }
 
-MovieMaker * ServiceLocator::locateMovieMaker() {
-    return &movieMaker;
+MovieMaker * ServiceLocator::getMovieMaker() {
+    return & getInstance()->movieMaker;
 }
 
-CaptureImageFromCamera * ServiceLocator::locateCaptureImageFromCamera() {
-    return &captureImageFromCamera;
+CaptureImageFromCamera * ServiceLocator::getCaptureImageFromCamera() {
+    return & getInstance()->captureImageFromCamera;
 }
 
-OrangeBallDetector * ServiceLocator::locateOrangeBallDetector() {
-    return &orangeBallDetector;
+OrangeBallDetector * ServiceLocator::getOrangeBallDetector() {
+    return & getInstance()->orangeBallDetector;
 }
