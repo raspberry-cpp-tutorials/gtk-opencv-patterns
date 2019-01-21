@@ -16,9 +16,9 @@ public:
     static OrangeBallDetector * getOrangeBallDetector();
 
     // Don't copy a singleton.
-    ServiceLocator(const ServiceLocator&) = delete;
+    ServiceLocator(const ServiceLocator &) = delete;
     // Don't copy a singleton.
-    ServiceLocator& operator= (const ServiceLocator&) = delete;
+    ServiceLocator& operator= (const ServiceLocator &) = delete;
 
 private:
     MovieMaker movieMaker;
