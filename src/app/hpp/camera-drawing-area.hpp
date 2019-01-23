@@ -26,5 +26,7 @@ private:
 	cv::Mat output;
 	int width, height;
 	EventBus<EventOrangeDetected> eventBus;
+    MovieMaker * movieMaker;
+    void displayRec(const Cairo::RefPtr<Cairo::Context>& cr);
 };
 #endif

@@ -1,10 +1,13 @@
 #include "camera-drawing-area.hpp"
+
+#include "service-locator.hpp"
 #include "system-helper.hpp"
 
 #include <opencv2/imgproc.hpp>
 
 CameraDrawingArea::CameraDrawingArea():
-dispatchInvalidate() {
+dispatchInvalidate(),
+movieMaker(ServiceLocator::getMovieMaker()){
     dispatchInvalidate.
         connect(sigc::mem_fun(*this, 
                     &CameraDrawingArea::doInvalidate));
@@ -44,12 +47,26 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
                     output.rows,
                     (int) output.step);
 
-        // Display
+        // Show it all
         Gdk::Cairo::set_source_pixbuf(cr, pixbuf);
         cr->paint();
+
+        // When recording, displays a red circle
+        if (movieMaker->isRecording()) {
+            displayRec(cr);
+        }
     }
 
     return true;
+}
+
+void CameraDrawingArea::displayRec(const Cairo::RefPtr<Cairo::Context>& cr) {
+    double radius = 7;
+    double x = width / 2;
+    double y = height - radius;
+    cr->arc(x, y, radius, 0, 2 * M_PI);
+    cr->fill();
+    cr->stroke();
 }
 
 void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
@@ -58,4 +75,5 @@ void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
     width = allocation.get_width();
     height = allocation.get_height();
 }
+
 

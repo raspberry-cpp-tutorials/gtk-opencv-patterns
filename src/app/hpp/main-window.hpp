@@ -20,6 +20,7 @@ private:
     Gtk::Box m_box;
     Gtk::Label m_label1;
     CameraDrawingArea cameraDrawingArea;
+    MovieMaker * movieMaker;
 };
 
 #endif

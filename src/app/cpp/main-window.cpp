@@ -1,12 +1,15 @@
 #include "main-window.hpp"
 
+#include "service-locator.hpp"
+
 #include <iostream>
 
 MainWindow::MainWindow(int width, int height):
 probablyInFullScreen(false),
 m_button("Hello World"),
 m_box(Gtk::ORIENTATION_VERTICAL),
-m_label1("First Label") {
+m_label1("First Label"),
+movieMaker(ServiceLocator::getMovieMaker()){
     // Configure this window:
     this->set_default_size(width, height);
 
@@ -49,7 +52,13 @@ bool MainWindow::on_key_press_event(GdkEventKey* event) {
                 get_application()->quit();
             }
             return true;
-
+            
+        // [P] Toggles the record pause:
+        case GDK_KEY_P:
+        case GDK_KEY_p:
+            movieMaker->toggleRecording();
+            return true;
+            
         // [F] toggles full screen mode:
         case GDK_KEY_F:
         case GDK_KEY_f:
