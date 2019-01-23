@@ -13,20 +13,20 @@ public Subscriptor<EventOrangeDetected> {
 public:
     CameraDrawingArea();
     virtual ~CameraDrawingArea();
-	void receive(EventOrangeDetected e) override;
+    void receive(EventOrangeDetected e) override;
     
 protected:
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr) override;
-	void on_size_allocate (Gtk::Allocation& allocation) override;
+    void on_size_allocate (Gtk::Allocation& allocation) override;
 
 private:
     Glib::Dispatcher dispatchInvalidate;
     void doInvalidate();
-	cv::Mat webcam;
 	cv::Mat output;
 	int width, height;
 	EventBus<EventOrangeDetected> eventBus;
     MovieMaker * movieMaker;
     void displayRec(const Cairo::RefPtr<Cairo::Context>& cr);
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf;
 };
 #endif
