@@ -36,7 +36,6 @@ void CameraDrawingArea::doInvalidate() {
 
 bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
     if (output.size().width > 0) {
-
         // Initializes a pixbuf sharing the same data as the mat:
         Glib::RefPtr<Gdk::Pixbuf> pixbuf =
             Gdk::Pixbuf::create_from_data((guint8*)output.data,
@@ -46,7 +45,6 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
                     output.cols,
                     output.rows,
                     (int) output.step);
-
         // Show it all
         Gdk::Cairo::set_source_pixbuf(cr, pixbuf);
         cr->paint();
@@ -64,6 +62,7 @@ void CameraDrawingArea::displayRec(const Cairo::RefPtr<Cairo::Context>& cr) {
     double radius = 7;
     double x = width / 2;
     double y = height - radius;
+    cr->set_source_rgb(1.0, 0.1, 0.1);
     cr->arc(x, y, radius, 0, 2 * M_PI);
     cr->fill();
     cr->stroke();
