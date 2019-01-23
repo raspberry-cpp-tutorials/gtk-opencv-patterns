@@ -6,6 +6,7 @@ using namespace cv;
 MovieMaker::MovieMaker(string filename, double fps):
 videoWriter(),
 isMovieStarted(false),
+recording(true),
 filename(filename),
 fps(fps) {
     // Nothing to do.
@@ -15,17 +16,27 @@ MovieMaker::~MovieMaker() {
     endMovie();
 }
 
+bool MovieMaker::isRecording() {
+    return recording;
+}
+
+void MovieMaker::toggleRecording() {
+    recording = !recording;
+}
+
 void MovieMaker::receive(EventImageCaptured e) {
     addPhotogram(e.getCapturedImage());
 }
 
 void MovieMaker::addPhotogram(Mat photogram) {
-    if (photogram.size().width > 0) {
-        if (!isMovieStarted) {
-            startMovie(photogram);
-            isMovieStarted = true;
+    if (recording) {
+        if (photogram.size().width > 0) {
+            if (!isMovieStarted) {
+                startMovie(photogram);
+                isMovieStarted = true;
+            }
+            videoWriter.write(photogram);
         }
-        videoWriter.write(photogram);
     }
 }
 

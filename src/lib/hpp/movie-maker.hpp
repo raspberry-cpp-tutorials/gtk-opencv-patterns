@@ -13,9 +13,12 @@ public:
     void endMovie();
     void addPhotogram(cv::Mat photogram);
     void receive(EventImageCaptured e);
+    void toggleRecording();
+    bool isRecording();
 private:
     cv::VideoWriter videoWriter;
     bool isMovieStarted;
+    bool recording;
     std::string filename;
     double fps;
     

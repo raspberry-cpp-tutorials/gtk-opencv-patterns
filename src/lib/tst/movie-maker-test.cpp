@@ -8,41 +8,62 @@
 using namespace std;
 using namespace cv;
 
-SCENARIO("Can make a movie") {
-    GIVEN( "An initialized movie maker") {
-        string filename("./live.avi");
+int nonEmptyFrames(string movieFileName) {
+    cv::Mat mat;
+    cv::VideoCapture movieReader(movieFileName);
+    int n = 0;
+    while(1) {
+        movieReader.read(mat);
+        if (mat.empty()) {
+            break;
+        }
+        n++;
+        REQUIRE(mat.size().width == 640);
+        REQUIRE(mat.size().height == 400);
+    }
+    return n;
+}
 
-        EventBus<EventImageCaptured> capturedImageEventBus;
+SCENARIO("Can make a movie") {
+    
+    string filename("./live.avi");
+    EventBus<EventImageCaptured> capturedImageEventBus;
+
+    Mat mat1, mat2, mat3;
+    mat1 = imread(string(PATH_TO_TEST_DATA).append("/abc-a.png"));
+    mat2 = imread(string(PATH_TO_TEST_DATA).append("/abc-b.png"));
+    mat3 = imread(string(PATH_TO_TEST_DATA).append("/abc-c.png"));
+
+    GIVEN( "An initialized movie maker") {
         MovieMaker movieMaker(filename, 10.0);
         capturedImageEventBus.subscribe(&movieMaker);
         
         WHEN( "Fed with images") {
-            Mat mat;
-            mat = imread(string(PATH_TO_TEST_DATA).append("/abc-a.png"));
-            capturedImageEventBus.propagate(EventImageCaptured(mat));
-            mat = imread(string(PATH_TO_TEST_DATA).append("/abc-b.png"));
-            capturedImageEventBus.propagate(EventImageCaptured(mat));
-            mat = imread(string(PATH_TO_TEST_DATA).append("/abc-c.png"));
-            capturedImageEventBus.propagate(EventImageCaptured(mat));
+            capturedImageEventBus.propagate(EventImageCaptured(mat1));
+            capturedImageEventBus.propagate(EventImageCaptured(mat2));
+            capturedImageEventBus.propagate(EventImageCaptured(mat3));
 
             movieMaker.endMovie();
             
             THEN ( "Can make a movie") {
-                cv::VideoCapture movieReader(filename);
-                int n = 0;
-                while(1) {
-                    movieReader.read(mat);
-                    if (mat.empty()) {
-                        break;
-                    }
-                    n++;
-                    REQUIRE(mat.size().width == 640);
-                    REQUIRE(mat.size().height == 400);
-                }
-                REQUIRE( n == 3);
+                REQUIRE( nonEmptyFrames(filename) == 3);
+            }
+        }
+        WHEN( "Toggling the recording") {
+            capturedImageEventBus.propagate(EventImageCaptured(mat1));
+            
+            movieMaker.toggleRecording();
+            capturedImageEventBus.propagate(EventImageCaptured(mat2));
+            movieMaker.toggleRecording();
+            
+            capturedImageEventBus.propagate(EventImageCaptured(mat3));
+            
+            movieMaker.endMovie();
+            
+            THEN ( "Skips the images propagated during pause") {
+                REQUIRE( nonEmptyFrames(filename) == 2);
             }
         }
         capturedImageEventBus.unsubscribe(&movieMaker);
     }
 }
-
