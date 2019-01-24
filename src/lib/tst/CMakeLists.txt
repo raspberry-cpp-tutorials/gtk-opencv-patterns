@@ -19,6 +19,7 @@ add_executable(rasctest
 	movie-maker-test
 	event-bus-test
 	system-helper-test
+	rate-meter-test
 )
 
 target_include_directories(rasctest PRIVATE ${PROJECT_BINARY_DIR})

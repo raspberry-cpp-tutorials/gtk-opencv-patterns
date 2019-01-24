@@ -8,6 +8,7 @@ set(RASCLIB_SOURCES
 	cpp/orange-ball-detector
 	cpp/movie-maker
 	cpp/capture-image-from-camera
+	cpp/rate-meter
 )
 
 if (WIN32)

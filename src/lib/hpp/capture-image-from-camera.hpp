@@ -6,6 +6,7 @@
 #include <opencv2/highgui.hpp>
 
 #include <thread>
+#include <chrono>
 
 class EventImageCaptured {
 public:
@@ -22,12 +23,16 @@ public:
 	virtual ~CaptureImageFromCamera();
 	void startCapturing();
 	void stopCapturing();
+    float getFrameRate();
 private:
 	bool keepCapturing;
+    float frameRate;
+    void updateFrameRate();
 	void doCapture();
 	void doPropagate();
 	std::thread* captureThread;
 	std::thread* propagateThread;
+    std::chrono::time_point<std::chrono::system_clock> lastFrameSystemClock;
 	cv::VideoCapture videoCapture;
 	cv::Mat webcam;
 	EventBus<EventImageCaptured> eventBus;

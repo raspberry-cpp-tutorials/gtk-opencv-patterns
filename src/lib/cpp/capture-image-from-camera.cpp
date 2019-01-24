@@ -3,6 +3,7 @@
 CaptureImageFromCamera::CaptureImageFromCamera():
 captureThread(nullptr),
 propagateThread(nullptr),
+lastFrameSystemClock(std::chrono::system_clock::now()),
 videoCapture(0) {
     startCapturing();
 }
@@ -42,8 +43,20 @@ void CaptureImageFromCamera::doCapture() {
         videoCapture.read(webcam);
         if (webcam.size().width > 0) {
             doPropagate();
+            updateFrameRate();
         }
     } while (keepCapturing);
+}
+
+void CaptureImageFromCamera::updateFrameRate() {
+    std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+    std::chrono::duration<float> difference = now - lastFrameSystemClock;
+    
+    frameRate = 1 / difference.count();
+}
+
+float CaptureImageFromCamera::getFrameRate() {
+    return frameRate;
 }
 
 void CaptureImageFromCamera::doPropagate() {
