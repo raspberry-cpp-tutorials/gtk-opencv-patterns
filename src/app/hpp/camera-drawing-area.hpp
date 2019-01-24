@@ -1,6 +1,7 @@
 #ifndef CAMERA_DRAWING_AREA_HPP
 #define CAMERA_DRAWING_AREA_HPP
 
+#include "capture-image-from-camera.hpp"
 #include "movie-maker.hpp"
 #include "orange-ball-detector.hpp"
 
@@ -26,7 +27,11 @@ private:
 	int width, height;
 	EventBus<EventOrangeDetected> eventBus;
     MovieMaker * movieMaker;
-    void displayRec(const Cairo::RefPtr<Cairo::Context>& cr);
+    CaptureImageFromCamera * captureImageFromCamera;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
+    Pango::FontDescription fontDescription;
+    void displayRec(const Cairo::RefPtr<Cairo::Context>& cr);
+    void displayCaptureRate(const Cairo::RefPtr<Cairo::Context>& cr, double captureRate);
+    void displayFrameRate(const Cairo::RefPtr<Cairo::Context>& cr, double captureRate);
 };
 #endif

@@ -2,11 +2,11 @@
 #define CAPTURE_IMAGE_FROM_CAMERA_HPP
 
 #include "event-bus.hpp"
+#include "rate-meter.hpp"
 
 #include <opencv2/highgui.hpp>
 
 #include <thread>
-#include <chrono>
 
 class EventImageCaptured {
 public:
@@ -23,16 +23,15 @@ public:
 	virtual ~CaptureImageFromCamera();
 	void startCapturing();
 	void stopCapturing();
-    float getFrameRate();
+    double getFrameRate();
+    double getCaptureRate();
 private:
 	bool keepCapturing;
-    float frameRate;
-    void updateFrameRate();
 	void doCapture();
 	void doPropagate();
-	std::thread* captureThread;
-	std::thread* propagateThread;
-    std::chrono::time_point<std::chrono::system_clock> lastFrameSystemClock;
+    std::thread * captureThread;
+    std::thread * propagateThread;
+    RateMeter frameRate, captureRate;
 	cv::VideoCapture videoCapture;
 	cv::Mat webcam;
 	EventBus<EventImageCaptured> eventBus;

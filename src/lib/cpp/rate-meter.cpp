@@ -10,6 +10,7 @@ lastSampleSystemClock(system_clock::now()) {
 void RateMeter::updateRate() {
     time_point<system_clock> now = system_clock::now();
     std::chrono::duration<double> difference = now - lastSampleSystemClock;
+    lastSampleSystemClock = now;
     
     double count = difference.count();
     if (count == 0) {

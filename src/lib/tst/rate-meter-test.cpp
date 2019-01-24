@@ -31,22 +31,21 @@ SCENARIO("Measure rates") {
 
         WHEN("Calling at different frequencies") {
             RateMeter rateMeter1, rateMeter2, rateMeter3;
-            wait(1000);
-            rateMeter1.updateRate();
-            wait(1000);
-            rateMeter1.updateRate();
-            rateMeter2.updateRate();
-            wait(1000);
-            rateMeter1.updateRate();
-            rateMeter3.updateRate();
-            wait(1000);
-            rateMeter1.updateRate();
-            rateMeter2.updateRate();
-            wait(1000);
-            rateMeter1.updateRate();
+
+            for (int n = 0; n < 10; n++) {
+                wait(1000);
+                rateMeter1.updateRate();
+                if (n % 2 == 0) {
+                    rateMeter2.updateRate();
+                }
+                if (n % 3 == 0) {
+                    rateMeter3.updateRate();
+                }
+            }
 
             THEN("Rates reflect frequency") {
-                REQUIRE(rateMeter.getRate() > 0);
+                REQUIRE(rateMeter1.getRate() > rateMeter2.getRate());
+                REQUIRE(rateMeter2.getRate() > rateMeter3.getRate());
             }
         }
     }
