@@ -59,14 +59,9 @@ void OrangeBallDetector::detect(cv::Mat image) {
         // Assuming that biggest contour is a circle,
         // determine its center and size:
         cv::minEnclosingCircle(maxContour, ballPosition, radius);
-
-        // Draw the circle:
-        if (radius > 20) {
-            cv::circle(resizedImage, ballPosition, radius, cv::Scalar(0, 255, 0), 3);
-        }
         showIfDebug(resizedImage);
     }
-    eventBus.propagate(EventOrangeDetected(resizedImage, ballPosition, radius));
+    eventBus.propagate(EventOrangeDetected(image, ballPosition * 0.5, radius));
 }
 
 void OrangeBallDetector::setDebug(bool d) {
@@ -75,6 +70,9 @@ void OrangeBallDetector::setDebug(bool d) {
 
 void OrangeBallDetector::showIfDebug(cv::Mat m) {
     if (debug) {
+        if (radius > 20) {
+            cv::circle(m, ballPosition, radius, cv::Scalar(0, 255, 0), 3);
+        }
         imshow("orange-ball-detector", m);
         cv::waitKey(0);
     }

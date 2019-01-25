@@ -30,9 +30,13 @@ CameraDrawingArea::~CameraDrawingArea() {
 
 void CameraDrawingArea::receive(EventOrangeDetected e) {
     if (width > 0 && height > 0) {
-        resize(e.getCapturedImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
+        // Resize captured image without changing its aspect:
+        cv::Mat capturedImage = e.getCapturedImage();
+        double capturedImageWidth = capturedImage.size().width;
+        double scale = width / capturedImageWidth;
+        resize(capturedImage, output, cv::Size(), scale, scale, cv::INTER_LINEAR);
 
-        // Initializes a pixbuf sharing the same data as the mat:
+        // Initialize a pixbuf based on the same data as the image:
         pixbuf = Gdk::Pixbuf::create_from_data(
                 (guint8*)output.data,
                 Gdk::COLORSPACE_RGB,
