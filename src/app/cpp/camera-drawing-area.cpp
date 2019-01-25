@@ -1,9 +1,13 @@
+#define _USE_MATH_DEFINES
+
 #include "camera-drawing-area.hpp"
 
 #include "service-locator.hpp"
 #include "system-helper.hpp"
 
 #include <opencv2/imgproc.hpp>
+
+#include <math.h>
 
 CameraDrawingArea::CameraDrawingArea():
 dispatchInvalidate(),
@@ -15,7 +19,7 @@ captureImageFromCamera(ServiceLocator::getCaptureImageFromCamera()){
     fontDescription.set_size(10 * Pango::SCALE);
 
     dispatchInvalidate.
-        connect(sigc::mem_fun(*this, 
+        connect(sigc::mem_fun(*this,
                     &CameraDrawingArea::doInvalidate));
     eventBus.subscribe(this);
 }
@@ -77,16 +81,16 @@ void CameraDrawingArea::displayRec(const Cairo::RefPtr<Cairo::Context>& cr) {
 }
 
 void CameraDrawingArea::displayCaptureRate(const Cairo::RefPtr<Cairo::Context> &cr, double captureRate) {
-    
+
     char text[30];
-    sprintf(text, "CR %.1f V", captureRate);
-    
+    sprintf(text, "CR %.1f fps", captureRate);
+
     auto layout = create_pango_layout(text);
     layout->set_font_description(fontDescription);
-    
+
     int textWidth, textHeight;
     layout->get_pixel_size(textWidth, textHeight);
-    
+
     cr->move_to(0, height - textHeight);
 
     cr->set_source_rgb(1.0, 1.0, 1.0);
@@ -96,16 +100,16 @@ void CameraDrawingArea::displayCaptureRate(const Cairo::RefPtr<Cairo::Context> &
 void CameraDrawingArea::displayFrameRate(const Cairo::RefPtr<Cairo::Context> &cr, double frameRate) {
 
     char text[30];
-    sprintf(text, "FR %.1f V", frameRate);
-    
+    sprintf(text, "FR %.1f fps", frameRate);
+
     auto layout = create_pango_layout(text);
     layout->set_font_description(fontDescription);
-    
+
     int textWidth, textHeight;
     layout->get_pixel_size(textWidth, textHeight);
-    
+
     cr->move_to(width - textWidth, height - textHeight);
-    
+
     cr->set_source_rgb(1.0, 1.0, 1.0);
     layout->show_in_cairo_context(cr);
 }
