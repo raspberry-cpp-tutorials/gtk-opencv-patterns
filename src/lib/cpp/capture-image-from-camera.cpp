@@ -40,7 +40,7 @@ void CaptureImageFromCamera::doCapture() {
         videoCapture.grab();
         videoCapture.grab();
         videoCapture.read(webcam);
-        if (webcam.size().width > 0) {
+        if (!webcam.empty()) {
             doPropagate();
         }
     } while (keepCapturing);
