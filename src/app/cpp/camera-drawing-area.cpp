@@ -51,7 +51,7 @@ void CameraDrawingArea::doCapture() {
 }
 
 void CameraDrawingArea::doProcess(cv::Mat image) {
-    if (image.size().width > 0) {
+    if (!image.empty()) {
 
         // Stream it in video:
         movieMaker.addPhotogram(image);
@@ -75,7 +75,7 @@ void CameraDrawingArea::doInvalidate() {
 }
 
 bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
-    if (output.size().width > 0) {
+    if (!output.empty()) {
 
         // Initializes a pixbuf sharing the same data as the mat:
         Glib::RefPtr<Gdk::Pixbuf> pixbuf =
@@ -101,4 +101,3 @@ void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
     width = allocation.get_width();
     height = allocation.get_height();
 }
-
