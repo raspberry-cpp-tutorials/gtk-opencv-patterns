@@ -7,8 +7,7 @@ void OrangeBallDetector::receive(EventImageCaptured e) {
 }
 
 void OrangeBallDetector::detect(cv::Mat image) {
-    double width = image.size().width;
-    if (image.size().width == 0) {
+    if (image.empty()) {
         return;
     }
     radius = 0;
@@ -16,6 +15,7 @@ void OrangeBallDetector::detect(cv::Mat image) {
     ballPosition.y = 0;
 
     // Make the image of a reasonable size:
+    double width = image.size().width;
     double scale = 600 / width;
     resize(image, resizedImage, cv::Size(), scale, scale, cv::INTER_LINEAR);
     showIfDebug(resizedImage);

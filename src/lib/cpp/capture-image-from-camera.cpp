@@ -49,7 +49,7 @@ void CaptureImageFromCamera::doCapture() {
         frameRate.updateRate();
         captureRate.updateRate();
 
-        if (webcam.size().width > 0) {
+        if (!webcam.empty()) {
             doPropagate();
         }
     } while (keepCapturing);
