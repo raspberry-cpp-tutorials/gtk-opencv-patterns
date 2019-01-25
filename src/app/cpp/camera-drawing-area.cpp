@@ -45,7 +45,10 @@ void CameraDrawingArea::receive(EventOrangeDetected e) {
                 output.cols,
                 output.rows,
                 (int) output.step);
-
+        
+        // Remember the event for later.
+        lastDetectedOrange = e;
+        
         // Invalidate the window, but for that we need to be in the GUI thread.
         dispatchInvalidate.emit();
 	}
@@ -68,10 +71,23 @@ bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
         displayRec(cr);
     }
 
+    highlightOrange(cr);
     displayCaptureRate(cr, captureImageFromCamera->getCaptureRate());
     displayFrameRate(cr, captureImageFromCamera->getFrameRate());
 
     return true;
+}
+
+void CameraDrawingArea::highlightOrange(const Cairo::RefPtr<Cairo::Context>& cr) {
+    if (lastDetectedOrange.hasDetectedSomething()) {
+        double radius = lastDetectedOrange.getRadius() * width;
+        double x = lastDetectedOrange.getBallPosition().x * width;
+        double y = lastDetectedOrange.getBallPosition().y * width;
+        cr->set_source_rgb(1.0, 1.0, 0.1);
+        cr->arc(x, y, radius, 0, 2 * M_PI);
+        cr->fill();
+        cr->stroke();
+    }
 }
 
 void CameraDrawingArea::displayRec(const Cairo::RefPtr<Cairo::Context>& cr) {

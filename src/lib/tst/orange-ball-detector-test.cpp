@@ -46,7 +46,7 @@ SCENARIO("Can detect orange balls in an image") {
             THEN ( "Can find the orange") {
                 EventOrangeDetected e = receiver.getEvent();
                 REQUIRE(e.hasDetectedSomething() );
-                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(435, 10));
+                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(0.728, 0.01));
             }
         }
 
@@ -59,7 +59,7 @@ SCENARIO("Can detect orange balls in an image") {
             THEN ( "Can find the orange (2)") {
                 EventOrangeDetected e = receiver.getEvent();
                 REQUIRE(e.hasDetectedSomething());
-                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(240, 10));
+                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(0.401, 0.01));
             }
         }
 
@@ -72,7 +72,7 @@ SCENARIO("Can detect orange balls in an image") {
             THEN ( "Can find the ball") {
                 EventOrangeDetected e = receiver.getEvent();
                 REQUIRE(e.hasDetectedSomething());
-                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(360, 10));
+                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(0.599, 0.01));
             }
         }
 
@@ -85,7 +85,7 @@ SCENARIO("Can detect orange balls in an image") {
             THEN ( "Sadly, misses the orange") {
                 EventOrangeDetected e = receiver.getEvent();
                 REQUIRE(e.hasDetectedSomething());
-                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(215, 10));
+                REQUIRE_THAT(e.getBallPosition().x, WithinAbs(0.355, 0.01));
             }
         }
 
@@ -99,7 +99,7 @@ SCENARIO("Can detect orange balls in an image") {
             THEN ( "Can find the ball") {
                 EventOrangeDetected e = receiver.getEvent();
                 REQUIRE(e.hasDetectedSomething());
-                REQUIRE_THAT( e.getBallPosition().x, WithinAbs(360, 10));
+                REQUIRE_THAT( e.getBallPosition().x, WithinAbs(0.613, 0.01));
             }
         }
         WHEN( "Shown with a broccoli") {

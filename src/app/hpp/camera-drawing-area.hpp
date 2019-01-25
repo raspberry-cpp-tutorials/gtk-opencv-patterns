@@ -30,6 +30,8 @@ private:
     CaptureImageFromCamera * captureImageFromCamera;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
     Pango::FontDescription fontDescription;
+    EventOrangeDetected lastDetectedOrange;
+    void highlightOrange(const Cairo::RefPtr<Cairo::Context>& cr);
     void displayRec(const Cairo::RefPtr<Cairo::Context>& cr);
     void displayCaptureRate(const Cairo::RefPtr<Cairo::Context>& cr, double captureRate);
     void displayFrameRate(const Cairo::RefPtr<Cairo::Context>& cr, double captureRate);

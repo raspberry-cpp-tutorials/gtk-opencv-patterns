@@ -2,6 +2,8 @@
 
 #include <opencv2/imgproc.hpp>
 
+#define ORANGE_BALL_DETECTOR_IMAGE_WIDTH 600
+
 void OrangeBallDetector::receive(EventImageCaptured e) {
     detect(e.getCapturedImage());
 }
@@ -16,7 +18,7 @@ void OrangeBallDetector::detect(cv::Mat image) {
 
     // Make the image of a reasonable size:
     double width = image.size().width;
-    double scale = 600 / width;
+    double scale = ORANGE_BALL_DETECTOR_IMAGE_WIDTH / width;
     resize(image, resizedImage, cv::Size(), scale, scale, cv::INTER_LINEAR);
     showIfDebug(resizedImage);
 
@@ -61,7 +63,10 @@ void OrangeBallDetector::detect(cv::Mat image) {
         cv::minEnclosingCircle(maxContour, ballPosition, radius);
         showIfDebug(resizedImage);
     }
-    eventBus.propagate(EventOrangeDetected(image, ballPosition * 0.5, radius));
+    eventBus.propagate(EventOrangeDetected(
+            resizedImage,
+            ballPosition / ORANGE_BALL_DETECTOR_IMAGE_WIDTH,
+            radius / ORANGE_BALL_DETECTOR_IMAGE_WIDTH));
 }
 
 void OrangeBallDetector::setDebug(bool d) {
@@ -120,5 +125,5 @@ float EventOrangeDetected::getRadius() {
 }
 
 bool EventOrangeDetected::hasDetectedSomething() {
-    return radius > 10;
+    return radius > 10 / ORANGE_BALL_DETECTOR_IMAGE_WIDTH;
 }
