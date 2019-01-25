@@ -30,7 +30,7 @@ void MovieMaker::receive(EventImageCaptured e) {
 
 void MovieMaker::addPhotogram(Mat photogram) {
     if (recording) {
-        if (photogram.size().width > 0) {
+        if (!photogram.empty()) {
             if (!isMovieStarted) {
                 startMovie(photogram);
                 isMovieStarted = true;
