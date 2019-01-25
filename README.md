@@ -1,6 +1,6 @@
 # An Full screen OpenCV / GtK application in C++ running on Raspberry PI
 
-_C++_, _OpenCV_ and _Gtk_ are a nice triplet to build applications that run on a Raspberry PI, taking images from the camera, process them, display them and have an unlimited user interface. In this example I'm showing some design patterns that I find useful when implementing a computer vision application with a graphic user interface. In a prior example [gtk-opencv-simple](https://github.com/raspberry-cpp-tutorials/gtk-opencv-simple), I show a much simpler way to display images caputerd with the camera in a full screen window. I hope these two examples can help you through the boring problems you need to solve before reaching the place where you can have fun.
+_C++_, _OpenCV_ and _Gtk_ are a nice triplet to build applications that run on a Raspberry PI, taking images from the camera, process them, display them and have an unlimited user interface. In this example I'm showing some design patterns that I find useful when implementing a computer vision application with a graphic user interface. In a prior example [gtk-opencv-simple](https://github.com/raspberry-cpp-tutorials/gtk-opencv-simple), I show a much simpler way to display images captured with the camera in a full screen window. I hope these two examples can help you through the boring problems you need to solve before reaching the place where you can have fun.
 
 I'm using the following technical stack:
 
@@ -12,23 +12,22 @@ I'm using the following technical stack:
 * **_Gtkmm_**, which is the _C++_ oriented port of _Gtk_ - Although _OpenCV_ lets you display images on screen, it is somewhat limited when interacting with the user. Being easily compatible, _Gtk / Gtkmm_ are a great complement to _OpenCV_ for building real user interfaces around computer vision applications.
 
 # Used patterns
-- Event Bus
-- Inversion of Control
-- Service Locator
-- Singleton
-- Conditional modules (via cmake)
+- Unit testing - This is the single most efficient strategy if you want to code fast **and** happy. To put it in practice requires you to design your application so it can be tested, in particular _loose coupling_.
+- Event Bus - This is great for separated processes producing images or process data to communicate between themselves without unhealthy coupling. 
+- Inversion of Control - Another great strategy to make loosely coupled components to cooperate.
+- Singleton - The most basic pattern of them all, useful to hold services or any single-state component.
+- Service Locator - This strategy allows any element of your application to be able to access any singleton.
+- Conditional modules (via cmake) - Conditional modules help to deal with the sad fact that Windows does not follow _Unix_ standards.
 
 # The branches structure
 In the [Wiki](https://github.com/raspberry-cpp-tutorials/gtk-opencv-patterns/wiki) articles I'm explaining the code quite in detail. To help the exposition order, I split the code into multiple steps:
-- Step1 branch contains the code for step 1.
-- Step2 branch contains step 2.
-- Etc.
-- Master branch contains the final code, all steps together.
+- ``master`` branch contains the final code, all steps together.
+- ``Stepxx`` branches contain the progressive evolution of the code.
 
 # Cross-platform development environment
 An important objective of this project is to be able to build and test it in your preferred desktop computer or notebook. _Raspberry Pi_ is meant to be an embedded system platform, and it is an amazing one. Still, it lacks the right keyboard, mouse, monitor or amount of memory required to be a comfortable as a development tool.
 
-In short, the project is configured via _cmake_ which makes it compatible with _XCode_, _Code::Build_, _gcc_ and other development tools, and this is what you need to do from either a _Mac OS X Terminal_, a _Linux Terminal_ or a _MinGW Terminal_:
+The project is configured via _cmake_ which makes it compatible with _XCode_, _Code::Build_, _gcc_ and other development tools, and this is what you need to do from either a _Mac OS X Terminal_, a _Linux Terminal_ or a _MinGW Terminal_:
 
 ```Bash
 cd ~/to/your/working/folder

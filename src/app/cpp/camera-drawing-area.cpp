@@ -56,4 +56,3 @@ void CameraDrawingArea::on_size_allocate (Gtk::Allocation& allocation) {
     width = allocation.get_width();
     height = allocation.get_height();
 }
-
