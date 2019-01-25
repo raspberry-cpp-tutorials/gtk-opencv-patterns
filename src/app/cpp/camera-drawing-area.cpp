@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+
 #include "camera-drawing-area.hpp"
 
 #include "service-locator.hpp"
