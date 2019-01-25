@@ -4,7 +4,7 @@
 
 void wait(int c) {
     for (int n = 0; n < c; n++) {
-        for (int m = 0; m < 1000; m++);
+        for (int m = 0; m < 10000; m++);
     }
 }
 
