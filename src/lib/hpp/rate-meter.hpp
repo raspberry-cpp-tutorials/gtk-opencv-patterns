@@ -13,7 +13,7 @@ public:
     
 private:
     double rate;
-    time_point<system_clock> lastSampleSystemClock;
+    time_point<high_resolution_clock> lastSampleSystemClock;
 };
 
 #endif
