@@ -83,9 +83,9 @@ void CameraDrawingArea::highlightOrange(const Cairo::RefPtr<Cairo::Context>& cr)
         double radius = lastDetectedOrange.getRadius() * width;
         double x = lastDetectedOrange.getBallPosition().x * width;
         double y = lastDetectedOrange.getBallPosition().y * width;
-        cr->set_source_rgb(1.0, 1.0, 0.1);
+        cr->set_source_rgb(1.0, 0.5, 0.1);
         cr->arc(x, y, radius, 0, 2 * M_PI);
-        cr->fill();
+        cr->set_line_width(5);
         cr->stroke();
     }
 }
