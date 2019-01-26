@@ -28,6 +28,7 @@ private:
 	EventBus<EventOrangeDetected> eventBus;
     MovieMaker * movieMaker;
     CaptureImageFromCamera * captureImageFromCamera;
+    std::mutex pixbufMutex;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
     Pango::FontDescription fontDescription;
     void displayRec(const Cairo::RefPtr<Cairo::Context>& cr);
