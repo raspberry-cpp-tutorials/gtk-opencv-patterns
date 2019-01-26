@@ -20,6 +20,7 @@ void CameraDrawingArea::receive(EventOrangeDetected e) {
         resize(e.getCapturedImage(), output, cv::Size(width, height), 0, 0, cv::INTER_LINEAR);
 
         // Initializes a pixbuf sharing the same data as the mat:
+        std::lock_guard<std::mutex> guard(pixbufMutex);
         pixbuf = Gdk::Pixbuf::create_from_data(
                 (guint8*)output.data,
                 Gdk::COLORSPACE_RGB,
@@ -42,6 +43,7 @@ void CameraDrawingArea::doInvalidate() {
 }
 
 bool CameraDrawingArea::on_draw(const Cairo::RefPtr<Cairo::Context>& cr) {
+    std::lock_guard<std::mutex> guard(pixbufMutex);
     if (pixbuf) {
         Gdk::Cairo::set_source_pixbuf(cr, pixbuf);
         cr->paint();

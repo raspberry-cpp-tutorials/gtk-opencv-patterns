@@ -24,6 +24,7 @@ private:
     void doInvalidate();
     cv::Mat output;
     Glib::RefPtr<Gdk::Pixbuf> pixbuf;
+    std::mutex pixbufMutex;
     int width, height;
     EventBus<EventOrangeDetected> eventBus;
 };
